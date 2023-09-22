@@ -14,6 +14,7 @@
 		9A767AD52ABC34C300AC4A71 /* autoCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AD42ABC34C300AC4A71 /* autoCheckTests.swift */; };
 		9A767ADF2ABC34C300AC4A71 /* autoCheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767ADE2ABC34C300AC4A71 /* autoCheckUITests.swift */; };
 		9A767AE12ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AE02ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift */; };
+		9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,8 @@
 		9A767ADA2ABC34C300AC4A71 /* autoCheckUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = autoCheckUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A767ADE2ABC34C300AC4A71 /* autoCheckUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autoCheckUITests.swift; sourceTree = "<group>"; };
 		9A767AE02ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autoCheckUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectBeacon.swift; sourceTree = "<group>"; };
+		9A923FDB2ABD5DDC0000E2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A1CC1222ABC586700830016 /* beacon */ = {
+			isa = PBXGroup;
+			children = (
+				9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */,
+			);
+			path = beacon;
+			sourceTree = "<group>";
+		};
 		9A767AB72ABC34C200AC4A71 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +105,8 @@
 		9A767AC22ABC34C200AC4A71 /* autoCheck */ = {
 			isa = PBXGroup;
 			children = (
+				9A923FDB2ABD5DDC0000E2FB /* Info.plist */,
+				9A767AED2ABC4D4F00AC4A71 /* util */,
 				9A767AC32ABC34C200AC4A71 /* autoCheckApp.swift */,
 				9A767AC52ABC34C200AC4A71 /* ContentView.swift */,
 				9A767AC72ABC34C200AC4A71 /* Assets.xcassets */,
@@ -127,6 +140,14 @@
 			path = autoCheckUITests;
 			sourceTree = "<group>";
 		};
+		9A767AED2ABC4D4F00AC4A71 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				9A1CC1222ABC586700830016 /* beacon */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +164,8 @@
 			dependencies = (
 			);
 			name = autoCheck;
+			packageProductDependencies = (
+			);
 			productName = autoCheck;
 			productReference = 9A767AC02ABC34C200AC4A71 /* autoCheck.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +238,8 @@
 				Base,
 			);
 			mainGroup = 9A767AB72ABC34C200AC4A71;
+			packageReferences = (
+			);
 			productRefGroup = 9A767AC12ABC34C200AC4A71 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,6 +284,7 @@
 			files = (
 				9A767AC62ABC34C200AC4A71 /* ContentView.swift in Sources */,
 				9A767AC42ABC34C200AC4A71 /* autoCheckApp.swift in Sources */,
+				9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,13 +443,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"autoCheck/Preview Content\"";
+				DEVELOPMENT_TEAM = KP5Q6WM79X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = autoCheck/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -445,13 +477,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"autoCheck/Preview Content\"";
+				DEVELOPMENT_TEAM = KP5Q6WM79X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = autoCheck/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

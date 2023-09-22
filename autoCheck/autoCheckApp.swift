@@ -12,6 +12,7 @@ struct autoCheckApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(ConnectBeacon())
         }
     }
 }

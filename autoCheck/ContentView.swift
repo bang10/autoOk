@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var connectionBeacon: ConnectBeacon
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            if connectionBeacon.beaconDetected {
+                Text("Connected Beacon")
+            } else {
+                Text("Fail Connected Beacon")
+            }
         }
         .padding()
     }
