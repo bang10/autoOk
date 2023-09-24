@@ -45,13 +45,27 @@ struct MyRecordView: View {
                 })
                 
                 Section(content: {
+                    HStack {
+                        Text("과목")
+                            .frame(width: 50, alignment: .leading)
+                        Spacer()
+                        Text("출석결과")
+                            .frame(width: 60)
+                        Spacer()
+                        Spacer()
+                        Text("시간")
+                            .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .leading)
+                    }
                     List(recordList, id: \.self) { record in
                         HStack {
                             Text(record.subject)
+                                .frame(width: 50, alignment: .leading)
                             Spacer()
                             Text(record.attendance)
+                                .frame(width: 60)
                             Spacer()
                             Text(record.time)
+                                .frame(width: 140)
                         }
                     }
                 })
