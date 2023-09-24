@@ -9,18 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var connectionBeacon: ConnectBeacon
+    
+    @Binding private var studentId: String
+    
+    init(studentId: Binding<String> = .constant("studentId")) {
+        _studentId = studentId
+    }
+    
     var body: some View {
-        VStack {
-            if connectionBeacon.beaconDetected {
-                Text("Connected Beacon")
-            } else {
-                Text("Fail Connected Beacon")
+        NavigationView {
+            VStack {
+                //            if connectionBeacon.beaconDetected {
+                //                Text("Connected Beacon")
+                //            } else {
+                //                Text("Fail Connected Beacon")
+                //            }
+                //        }
+                //        .padding()
             }
         }
-        .padding()
+        .navigationTitle("출석")
+        .navigationBarTitleDisplayMode(.automatic)
     }
 }
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

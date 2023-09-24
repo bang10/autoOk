@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct SecondPasswordView: View {
+    @State var secondPassword: String = ""
+    @State var secondPasswordCheck: String = String(Double.random(in: 9999999999...99999999999999))
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
     }
 }
 

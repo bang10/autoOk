@@ -11,7 +11,7 @@ import SwiftUI
 struct autoCheckApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
                 .environmentObject(ConnectBeacon())
         }
     }
