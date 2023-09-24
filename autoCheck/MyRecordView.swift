@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct MyRecordView: View {
+    @Binding private var studentId: String
+    
+    init(studentId: Binding<String> = .constant("studentId")) {
+        _studentId = studentId
+    }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            
+        }
+        .navigationTitle("출석")
+        .navigationBarTitleDisplayMode(.automatic)
     }
 }
 

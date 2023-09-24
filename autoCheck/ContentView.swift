@@ -19,17 +19,28 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                //            if connectionBeacon.beaconDetected {
-                //                Text("Connected Beacon")
-                //            } else {
-                //                Text("Fail Connected Beacon")
-                //            }
-                //        }
-                //        .padding()
+                Text("출석 체크")
+                TabView {
+                    AttendanceView(studentId: $studentId)
+                        .padding(.bottom, 10)
+                        .tabItem {
+                            Image(systemName: "graduationcap.fill")
+                                .font(.system(size: 30))
+                                .background(.white)
+                                .foregroundColor(.black)
+                        }
+                    
+                    MyRecordView(studentId: $studentId)
+                        .padding(.bottom, 10)
+                        .tabItem {
+                            Image(systemName: "menubar.dock.rectangle.badge.record")
+                                .font(.system(size: 30))
+                                .background(.white)
+                                .foregroundColor(.black)
+                        }
+                }
             }
         }
-        .navigationTitle("출석")
-        .navigationBarTitleDisplayMode(.automatic)
     }
 }
 struct ContentView_Previews: PreviewProvider {
