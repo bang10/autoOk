@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     var alert = Alert()
+    var loginService = LoginService()
     @State private var studentId: String = ""
     @State private var password: String = ""
     @State private var isLogin: Bool = false
@@ -31,7 +32,18 @@ struct LoginView: View {
                 .padding(.bottom, 5)
                 
                 Button("로그인") {
-                    isLogin = true
+                    loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) {res in
+                        if let res = res {
+                            if res {
+                                isLogin = true
+                            } else {
+                                alert.alert(message: "아직 미인증된 학생 계정이에요. 가입일로 부터 최대 3영업일이 소요될 수 있어요.")
+                            }
+                        } else {
+                            alert.alert(message: "일치하는 정보가 없어요")
+                        }
+                    }
+                    
                 }
                 .font(.system(size: 20))
                 .padding(.top, 5)

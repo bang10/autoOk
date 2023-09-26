@@ -11,7 +11,14 @@ import Alamofire
 class LoginService {
     private var baseUrl = API_SET()
     
-    func login(loginDto: LoginDto) {
-        
+    func login(loginDto: LoginDto, res: @escaping(Bool?) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/user/login", method: .post, parameters: loginDto, encoder: JSONParameterEncoder.default).responseJSON { result in
+            switch result.result {
+            case.success(let value) :
+                res(value as? Bool)
+            case.failure(_) :
+                res(nil)
+            }
+        }
     }
 }
