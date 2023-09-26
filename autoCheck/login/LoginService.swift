@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import Alamofire
+
+class LoginService {
+    private var baseUrl = API_SET()
+    
+    func login(loginDto: LoginDto) {
+        
+    }
+}
