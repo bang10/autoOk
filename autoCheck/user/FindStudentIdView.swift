@@ -14,7 +14,7 @@ struct FindStudentId: View {
     var validityController = ValidityController()
     var alert = Alert()
     @State var studentId: String = ""
-    @State var name: String = "방성환"
+    @State var name: String = ""
     @State var tellNumber: String = ""
     @State var authTellNumber: String = ""
     @State var tellAuthNumberCheck: String = String(Double.random(in: 9999999999...99999999999999))

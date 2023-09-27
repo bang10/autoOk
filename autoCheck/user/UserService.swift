@@ -23,7 +23,26 @@ class UserService {
             } else {
                 res(0, nil)
             }
-        
+        }
+    }
+    
+    func isUser(findStudentInfo: FindStudentInfoDto, result: @escaping(Bool?) -> Void) {
+        let findStudentInfoDto: [String: Any] = [
+                "studentName": findStudentInfo.studentName,
+                "studentId": findStudentInfo.studentId,
+                "tellNumber": findStudentInfo.tellNumber
+            ]
+        AF.request(baseUrl.getBaseUrl() + "/ysu/user/find", method: .get, parameters: findStudentInfoDto).responseJSON { res in
+            if res.response?.statusCode == 200 {
+                switch res.result {
+                case.success(let value):
+                    result(value as! Bool)
+                    print("success \(value)")
+                case.failure(let error):
+                    result(false)
+                    print("fail \(error)")
+                }
+            }
         }
     }
 }

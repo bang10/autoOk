@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ResetPassword: View {
-    @State var name: String = ""
+    var userService = UserService()
+    var alert = Alert()
+    @State var name: String = "방성환"
     @State var studentId: String = ""
     @State var tellNumber: String = ""
     @State var authTellNumber: String = ""
@@ -42,7 +44,15 @@ struct ResetPassword: View {
                     HStack {
                         Spacer()
                         Button ("인증") {
-                            
+                            userService.isUser(findStudentInfo: FindStudentInfoDto(studentName: name, studentId: studentId, tellNumber: tellNumber)) { res in
+                                if let res = res {
+                                    if res {
+                                        alert.alert(message: "success")
+                                    } else {
+                                        alert.alert(message: "일치하는 정보가 없습니다.")
+                                    }
+                                }
+                            }
                         }
                         Spacer()
                     }

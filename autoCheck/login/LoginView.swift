@@ -65,7 +65,7 @@ struct LoginView: View {
                     Spacer()
                     
                     NavigationLink(destination: ResetPassword()) {
-                        Text("비밀번호 찾기")
+                        Text("비밀번호 초기화")
                             .font(.system(size: 20))
                     }
                     

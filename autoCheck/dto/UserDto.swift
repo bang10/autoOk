@@ -16,3 +16,9 @@ struct FindStudentDto: Codable {
     var studentName: String
     var tellNumber: String
 }
+
+struct FindStudentInfoDto: Encodable {
+    var studentName: String
+    var studentId: String
+    var tellNumber: String
+}
