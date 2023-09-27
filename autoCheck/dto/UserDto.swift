@@ -11,3 +11,8 @@ struct LoginDto: Codable {
     var studentId: String
     var password: String
 }
+
+struct FindStudentDto: Codable {
+    var studentName: String
+    var tellNumber: String
+}

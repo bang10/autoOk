@@ -16,9 +16,11 @@ class LoginService {
             switch result.result {
             case.success(let value) :
                 res(value as? Bool)
-            case.failure(_) :
+            case.failure(let error) :
                 res(nil)
+                print(error)
             }
         }
     }
+    
 }
