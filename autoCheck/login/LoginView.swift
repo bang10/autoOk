@@ -17,77 +17,111 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView{
+            ZStack{
+//                LinearGradient(
+//                gradient: Gradient(colors: [Color.blue, Color.purple]),
+//                startPoint: .topLeading,
+//                endPoint: .bottomTrailing
+//            )
+//            .ignoresSafeArea()
             
-            VStack {
-                TextField("학번을 입력해 주세요.", text: $studentId)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                SecureField("생년월일을 입력해 주세요.", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                Toggle(isOn: $isAutoLogin,
-                       label: {
-                    Text("자동 로그인을 하시려면 선택해 주세요.")
-                        .font(.system(size: 15))
-                })
-                .padding(.bottom, 5)
-                
-                Button("로그인") {
-                    loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) {res in
-                        if let res = res {
-                            if res {
-                                isLogin = true
+                VStack {
+                    HStack {
+                        Image(systemName: "person").frame(width: 20)
+                            .font(.system(size: 25))
+                            .foregroundColor(.gray)
+                        TextField("학번", text: $studentId)
+                            .frame(width: 300, height: 30)
+                            .textCase(.lowercase)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(false)
+                            
+                    }
+                    .padding()
+                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black, lineWidth: 2))
+                    .padding(.bottom, 10)
+                    
+                    HStack {
+                        Image(systemName: "key").frame(width: 20)
+                            .font(.system(size: 25))
+                            .foregroundColor(.gray)
+                        SecureField("생년월일", text: $password)
+                            .frame(width: 300, height: 30)
+                            .autocapitalization(.none)
+                            
+                    }
+                    .padding()
+                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black, lineWidth: 2))
+                    
+                    
+                    Toggle(isOn: $isAutoLogin,
+                           label: {
+                        Text("자동 로그인을 하시려면 선택해 주세요.")
+                            .font(.system(size: 15))
+                    })
+                    .padding(.bottom, 5)
+                    
+                    Button("로그인") {
+                        loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) {res in
+                            if let res = res {
+                                if res {
+                                    isLogin = true
+                                } else {
+                                    alert.alert(message: "아직 미인증된 학생 계정이에요. 가입일로 부터 최대 3영업일이 소요될 수 있어요.")
+                                }
                             } else {
-                                alert.alert(message: "아직 미인증된 학생 계정이에요. 가입일로 부터 최대 3영업일이 소요될 수 있어요.")
+                                alert.alert(message: "일치하는 정보가 없어요")
                             }
-                        } else {
-                            alert.alert(message: "일치하는 정보가 없어요")
                         }
+                        
+                    }
+                    .font(.system(size: 20))
+                    .foregroundColor(.black)
+        
+                    
+                    //ContentView로 이동
+                    NavigationLink(destination: ContentView(studentId: $studentId)
+                        .navigationBarBackButtonHidden(true), isActive: $isLogin
+                    ) {
+                        EmptyView()
                     }
                     
-                }
-                .font(.system(size: 20))
-                .padding(.top, 5)
-                
-                //ContentView로 이동
-                NavigationLink(destination: ContentView(studentId: $studentId)
-                    .navigationBarBackButtonHidden(true), isActive: $isLogin
-                ) {
-                    EmptyView()
-                }
-                
-                HStack{
-                    Spacer()
-                    NavigationLink(destination: FindStudentId()) {
-                        Text("학번 찾기")
+                    HStack{
+                        Spacer()
+                        NavigationLink(destination: FindStudentId()) {
+                            Text("학번 찾기")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: ResetPassword()) {
+                            Text("비밀번호 초기화")
+                                .font(.system(size: 20))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Spacer()
+                    }//HStack
+                    
+                    HStack {
+                        Spacer()
+                        //학번 찾기
+                        Spacer()
+                        //비밀번호 초기화
+                        
+                    }
+                    
+                    NavigationLink(destination: JoinView()) {
+                        Text("회원가입")
                             .font(.system(size: 20))
+                            .foregroundColor(.black)
                     }
                     
-                    Spacer()
-                    
-                    NavigationLink(destination: ResetPassword()) {
-                        Text("비밀번호 초기화")
-                            .font(.system(size: 20))
-                    }
-                    
-                    Spacer()
-                }//HStack
-                
-                HStack {
-                    Spacer()
-                    //학번 찾기
-                    Spacer()
-                    //비밀번호 초기화
-                    
-                }
-                
-                NavigationLink(destination: JoinView()) {
-                    Text("회원가입")
-                        .font(.system(size: 20))
-                }
-                
-            } //VStack
-            .padding(.horizontal, 50)
+                } //VStack
+                .padding(.horizontal, 50)
+            }
         } //NavigationView
         .navigationTitle("로그인")
         .navigationBarTitleDisplayMode(.automatic)
