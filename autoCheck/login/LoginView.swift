@@ -79,9 +79,9 @@ struct LoginView: View {
                     .foregroundColor(.black)
         
                     
-                    //ContentView로 이동
-                    NavigationLink(destination: ContentView(studentId: $studentId)
-                        .navigationBarBackButtonHidden(true), isActive: $isLogin
+                    //2차 비밀번호
+                    NavigationLink(destination: SecondPassword(studentId: $studentId)
+                        , isActive: $isLogin
                     ) {
                         EmptyView()
                     }
@@ -104,6 +104,7 @@ struct LoginView: View {
                         
                         Spacer()
                     }//HStack
+                    .padding(.top, 10)
                     
                     HStack {
                         Spacer()

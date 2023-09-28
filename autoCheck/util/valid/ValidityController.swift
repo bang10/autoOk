@@ -67,4 +67,29 @@ class ValidityController {
             return false
         }
     }
+    
+    func validateBirth(birth: String) -> Bool {
+        let birthPattern = "^(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$"
+            
+        do {
+            let regex = try NSRegularExpression(pattern: birthPattern, options: .caseInsensitive)
+            let matches = regex.matches(in: birth, options: [], range: NSRange(location: 0, length: birth.count))
+            return matches.count > 0
+        } catch {
+            return false
+        }
+    }
+    
+    func validateGrade(grade: String) -> Bool {
+        let GradePattern = "^[1-9]$"
+            
+        do {
+            let regex = try NSRegularExpression(pattern: GradePattern, options: .caseInsensitive)
+            let matches = regex.matches(in: grade, options: [], range: NSRange(location: 0, length: grade.count))
+            return matches.count > 0
+        } catch {
+            return false
+        }
+    }
+
 }

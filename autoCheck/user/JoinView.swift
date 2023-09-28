@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct JoinView: View {
+    var fileManageService = FileManageService()
     var userService = UserService()
     var authenticationService = AuthenticationService()
     var validityController = ValidityController()
@@ -28,7 +29,6 @@ struct JoinView: View {
     @State var isTellAuth: Bool = false
     @State var isStudentId: Bool = false
 
-    
     var body: some View {
         NavigationView {
             Form {
@@ -73,7 +73,10 @@ struct JoinView: View {
                 Section (
                     header: Text("생년월일")
                     , content: {
-                        TextField("991030", text: $birth)
+                        TextField("19991030", text: $birth)
+                        if !validityController.validateBirth(birth: birth) {
+                            Text("올바른 생년월일을 입력해주세요.")
+                        }
                     }
                 )
                 .disabled(isJoin)
@@ -82,6 +85,9 @@ struct JoinView: View {
                     header: Text("학년")
                     , content: {
                         TextField("4", text: $grade)
+                        if !validityController.validateGrade(grade: grade) {
+                            Text("옳바른 학년을 입력해 주세요.")
+                        }
                     }
                 )
                 .disabled(isJoin)
@@ -143,10 +149,11 @@ struct JoinView: View {
                                 if validityController.validateSecondPassword(password: secondPassword), secondPasswordCheck == secondPassword {
                                     if isTellAuth {
                                         if isStudentId {
-                                            if name != "", birth != "", grade != "" {
+                                            if name != "", validityController.validateBirth(birth: birth), validityController.validateGrade(grade: grade) {
                                                 userService.join(joinDto: joinDto(studentId: studentId, name: name, tellNumber: tellNumber, birth: birth, grade: grade)) { res in
                                                     if let res = res {
                                                         if res {
+                                                            fileManageService.saveTextToFile(secondPassword, fileName: "param.txt")
                                                             isJoin = true
                                                             alert.alert(message: "가입 했습니다.")
                                                         } else {
