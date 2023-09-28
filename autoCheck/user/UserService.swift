@@ -37,10 +37,21 @@ class UserService {
                 switch res.result {
                 case.success(let value):
                     result(value as! Bool)
-                    print("success \(value)")
                 case.failure(let error):
                     result(false)
-                    print("fail \(error)")
+                }
+            }
+        }
+    }
+    
+    func updatePassword(updatePassword: UpdatePasswordDto, result: @escaping(Bool?) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/user/update/password", method: .post, parameters: updatePassword, encoder: JSONParameterEncoder.default).responseJSON { res in
+            if res.response?.statusCode == 200 {
+                switch res.result {
+                case.success(let value):
+                    result(value as! Bool)
+                case.failure(_):
+                    result(false)
                 }
             }
         }

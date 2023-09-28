@@ -22,3 +22,8 @@ struct FindStudentInfoDto: Encodable {
     var studentId: String
     var tellNumber: String
 }
+
+struct UpdatePasswordDto: Codable {
+    var studentId: String
+    var newPassword: String
+}
