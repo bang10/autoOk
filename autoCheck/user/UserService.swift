@@ -10,6 +10,32 @@ import Alamofire
 
 class UserService {
     private var baseUrl = API_SET()
+
+    func join(joinDto: joinDto, result: @escaping(Bool?) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/user/join", method: .post, parameters: joinDto, encoder: JSONParameterEncoder.default).responseJSON { res in
+            if res.response?.statusCode == 200 {
+                switch res.result {
+                case.success(let value) :
+                    result(value as! Bool)
+                case.failure(_):
+                    result(false)
+                }
+            }
+        }
+    }
+    
+    func isJoinUser(studentId: String, result: @escaping(Bool?) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/user/findUserInfo/\(studentId)", method: .get).responseJSON {res in
+            if res.response?.statusCode == 200 {
+                switch res.result {
+                case.success(let value):
+                    result(value as? Bool)
+                case.failure(_):
+                    result(false)
+                }
+            }
+        }
+    }
     
     func findStudentId(findStudentDto: FindStudentDto, res: @escaping(NSNumber?, Error?) -> Void) {
         AF.request(baseUrl.getBaseUrl() + "/ysu/user/find/studentId", method: .post, parameters: findStudentDto, encoder: JSONParameterEncoder.default).responseJSON { result in

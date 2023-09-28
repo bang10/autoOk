@@ -8,7 +8,7 @@
 import Foundation
 
 class API_SET {
-    final var baseUrl: String = "http://localhost:8999"
+    final let baseUrl: String = "http://localhost:8999"
     
     func getBaseUrl() -> String {
         return baseUrl;

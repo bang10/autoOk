@@ -55,4 +55,16 @@ class ValidityController {
             return false
         }
     }
+    
+    func validateSecondPassword(password: String) -> Bool {
+        let passwordPattern = "^[0-9]{4,6}$"
+            
+        do {
+            let regex = try NSRegularExpression(pattern: passwordPattern, options: .caseInsensitive)
+            let matches = regex.matches(in: password, options: [], range: NSRange(location: 0, length: password.count))
+            return matches.count > 0
+        } catch {
+            return false
+        }
+    }
 }

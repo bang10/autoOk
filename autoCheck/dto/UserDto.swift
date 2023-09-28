@@ -27,3 +27,11 @@ struct UpdatePasswordDto: Codable {
     var studentId: String
     var newPassword: String
 }
+
+struct joinDto: Codable {
+    var studentId: String
+    var name: String
+    var tellNumber: String
+    var birth: String
+    var grade: String
+}

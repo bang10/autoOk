@@ -17,11 +17,12 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView{
+            
             VStack {
                 TextField("학번을 입력해 주세요.", text: $studentId)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                SecureField("비밀번호를 입력해 주세요.", text: $password)
+                SecureField("생년월일을 입력해 주세요.", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 Toggle(isOn: $isAutoLogin,
