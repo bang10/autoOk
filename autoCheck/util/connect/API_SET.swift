@@ -8,7 +8,7 @@
 import Foundation
 
 class API_SET {
-    private let BASE_URL: String = "https://8bb8-112-151-244-161.ngrok.io"
+    private let BASE_URL: String = "https://3e2c-112-151-244-161.ngrok.io"
     
     func getBaseUrl() -> String {
         return BASE_URL;

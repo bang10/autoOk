@@ -14,17 +14,14 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var isLogin: Bool = false
     @State private var isAutoLogin: Bool = false
+    @State private var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
     
     var body: some View {
         NavigationView{
             ZStack{
-//                LinearGradient(
-//                gradient: Gradient(colors: [Color.blue, Color.purple]),
-//                startPoint: .topLeading,
-//                endPoint: .bottomTrailing
-//            )
-//            .ignoresSafeArea()
-            
+                if isLoggedIn {
+                    
+                }
                 VStack {
                     HStack {
                         Image(systemName: "person").frame(width: 20)
@@ -54,17 +51,12 @@ struct LoginView: View {
                     .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black, lineWidth: 2))
                     
                     
-                    Toggle(isOn: $isAutoLogin,
-                           label: {
-                        Text("자동 로그인을 하시려면 선택해 주세요.")
-                            .font(.system(size: 15))
-                    })
-                    .padding(.bottom, 5)
-                    
                     Button("로그인") {
                         loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) {res in
                             if let res = res {
                                 if res {
+                                    UserDefaults.standard.set(studentId, forKey: "userID")
+                                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
                                     isLogin = true
                                 } else {
                                     alert.alert(message: "아직 미인증된 학생 계정이에요. 가입일로 부터 최대 3영업일이 소요될 수 있어요.")
@@ -76,8 +68,7 @@ struct LoginView: View {
                         
                     }
                     .font(.system(size: 20))
-                    .foregroundColor(.black)
-        
+                    .padding(.top, 15)
                     
                     //2차 비밀번호
                     NavigationLink(destination: SecondPassword(studentId: $studentId)
@@ -91,7 +82,6 @@ struct LoginView: View {
                         NavigationLink(destination: FindStudentId()) {
                             Text("학번 찾기")
                                 .font(.system(size: 20))
-                                .foregroundColor(.black)
                         }
                         
                         Spacer()
@@ -99,7 +89,6 @@ struct LoginView: View {
                         NavigationLink(destination: ResetPassword()) {
                             Text("비밀번호 초기화")
                                 .font(.system(size: 20))
-                                .foregroundColor(.black)
                         }
                         
                         Spacer()
@@ -117,10 +106,17 @@ struct LoginView: View {
                     NavigationLink(destination: JoinView()) {
                         Text("회원가입")
                             .font(.system(size: 20))
-                            .foregroundColor(.black)
                     }
                     
                 } //VStack
+                .onAppear(perform: {
+                    if UserDefaults.standard.bool(forKey: "isLoggedIn") {
+                        if let savedUserID = UserDefaults.standard.string(forKey: "userID") {
+                            studentId = savedUserID
+                            isLogin = true
+                        }
+                    }
+                })
                 .padding(.horizontal, 50)
             }
         } //NavigationView

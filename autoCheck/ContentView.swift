@@ -12,14 +12,14 @@ struct ContentView: View {
     
     @Binding private var studentId: String
     
-    init(studentId: Binding<String> = .constant("studentId")) {
+    init(studentId: Binding<String> = .constant("")) {
         _studentId = studentId
     }
     
     var body: some View {
         NavigationView {
             VStack {
-                Text("출석 체크")
+                Text("\(studentId)의 출석 체크")
                 TabView {
                     AttendanceView(studentId: $studentId)
                         .padding(.bottom, 10)

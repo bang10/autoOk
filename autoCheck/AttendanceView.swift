@@ -19,7 +19,7 @@ struct AttendanceView: View {
     @State var classroom: String = "201"
     @State var grade: String = "1"
     
-    init(studentId: Binding<String> = .constant("studentId")) {
+    init(studentId: Binding<String> = .constant("")) {
         _studentId = studentId
     }
     var body: some View {
