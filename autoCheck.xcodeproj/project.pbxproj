@@ -31,7 +31,6 @@
 		9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA516EC2AC1CE0300A96A32 /* API_SET.swift */; };
 		9AF7346D2ABDDCC3008C31F1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */; };
 		9AF734702ABDE630008C31F1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9AF7346F2ABDE630008C31F1 /* Alamofire */; };
-		9AF734722ABDE691008C31F1 /* SetConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF734712ABDE691008C31F1 /* SetConnect.swift */; };
 		9AF734752ABDE6C2008C31F1 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF734742ABDE6C2008C31F1 /* Alert.swift */; };
 		9AF734782ABDE78B008C31F1 /* ValidityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF734772ABDE78B008C31F1 /* ValidityController.swift */; };
 		9AF7347A2ABDE86A008C31F1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF734792ABDE86A008C31F1 /* LoginService.swift */; };
@@ -82,7 +81,6 @@
 		9AA516E92AC1CD9A00A96A32 /* UserDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDto.swift; sourceTree = "<group>"; };
 		9AA516EC2AC1CE0300A96A32 /* API_SET.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_SET.swift; sourceTree = "<group>"; };
 		9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		9AF734712ABDE691008C31F1 /* SetConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetConnect.swift; sourceTree = "<group>"; };
 		9AF734742ABDE6C2008C31F1 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		9AF734772ABDE78B008C31F1 /* ValidityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityController.swift; sourceTree = "<group>"; };
 		9AF734792ABDE86A008C31F1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				9AF734762ABDE775008C31F1 /* valid */,
 				9AF734732ABDE6B4008C31F1 /* alert */,
 				9A1CC1222ABC586700830016 /* beacon */,
-				9AF734712ABDE691008C31F1 /* SetConnect.swift */,
 				9A0AEDA22AC62B68000F2E27 /* SecondPassword.swift */,
 			);
 			path = util;
@@ -424,7 +421,6 @@
 				9A767AC42ABC34C200AC4A71 /* autoCheckApp.swift in Sources */,
 				9A1DC15A2AC02A1600AFA5CB /* ResetPasswordPopup.swift in Sources */,
 				9A1DC15E2AC02DCA00AFA5CB /* MyRecordView.swift in Sources */,
-				9AF734722ABDE691008C31F1 /* SetConnect.swift in Sources */,
 				9AA516EA2AC1CD9A00A96A32 /* UserDto.swift in Sources */,
 				9A443B832AC34A4F00A9E277 /* ResponseDataDto.swift in Sources */,
 				9AF734782ABDE78B008C31F1 /* ValidityController.swift in Sources */,
@@ -600,7 +596,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = autoCheck/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
@@ -634,7 +632,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = autoCheck/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";

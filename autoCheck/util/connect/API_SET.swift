@@ -8,9 +8,9 @@
 import Foundation
 
 class API_SET {
-    final let baseUrl: String = "http://localhost:8999"
+    private let BASE_URL: String = "https://8bb8-112-151-244-161.ngrok.io"
     
     func getBaseUrl() -> String {
-        return baseUrl;
+        return BASE_URL;
     }
 }

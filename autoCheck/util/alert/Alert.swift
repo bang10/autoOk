@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class Alert {
-    private let setConnet = SetConnect()
     
     init(){}
     

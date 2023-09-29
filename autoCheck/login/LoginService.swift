@@ -12,6 +12,7 @@ class LoginService {
     private var baseUrl = API_SET()
     
     func login(loginDto: LoginDto, res: @escaping(Bool?) -> Void) {
+        print(baseUrl.getBaseUrl())
         AF.request(baseUrl.getBaseUrl() + "/ysu/user/login", method: .post, parameters: loginDto, encoder: JSONParameterEncoder.default).responseJSON { result in
             switch result.result {
             case.success(let value) :
