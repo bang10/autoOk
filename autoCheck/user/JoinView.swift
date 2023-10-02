@@ -44,10 +44,10 @@ struct JoinView: View {
                                         if let res = res {
                                             if res {
                                                 isStudentId = false
-                                                alert.alert(message: "이미 가입된 학번입니다.")
+                                                alert.alert(message: "이미 가입된 학번이에요.")
                                             } else {
                                                 isStudentId = true
-                                                alert.alert(message: "가입 가능합니다.")
+                                                alert.alert(message: "가입 가능해요.")
                                             }
                                         }
                                     }
@@ -110,7 +110,7 @@ struct JoinView: View {
                                         }
                                     }
                                 } else {
-                                    alert.alert(message: "미입력 칸이 있거나, 옳바른 전화번호 형식이 아닙니다.")
+                                    alert.alert(message: "미입력 칸이 있거나, 옳바른 전화번호 형식이 아니에요.")
                                 }
                             }
                             Spacer()
@@ -155,14 +155,14 @@ struct JoinView: View {
                                                         if res {
                                                             fileManageService.saveTextToFile(secondPassword, fileName: "param.txt")
                                                             isJoin = true
-                                                            alert.alert(message: "가입 했습니다.")
+                                                            alert.alert(message: "성공적으로 가입했어요.")
                                                         } else {
                                                             alert.alert(message: "가입에 실패했어요.")
                                                         }
                                                     }
                                                 }
                                             } else {
-                                                alert.alert(message: "미입력 칸이 있습니다.")
+                                                alert.alert(message: "미입력 칸이 있어요.")
                                             }
                                         } else {
                                             alert.alert(message: "학생번호를 확인해 주세요.")
