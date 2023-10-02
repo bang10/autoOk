@@ -69,7 +69,7 @@ func authenticateWithBiometrics(completion: @escaping (Result<Void, Error>) -> V
         
         // Face ID 또는 Touch ID를 사용하여 인증 시도
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-            let reason = "인증이 필요합니다."
+            let reason = "생체인증으로 로그인을 시도합니다."
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
                 DispatchQueue.main.async {

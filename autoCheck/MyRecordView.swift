@@ -12,6 +12,7 @@ struct MyRecordView: View {
     @State var subjectList: [String] = ["1", "2", "3"]
     @State var selectedSubject: String = ""
     @State var time: String = ""
+    @State var attendance: String = ""
     @State var recordList: [Record] = [
         Record(subject: "cap", attendance: "출석", time: "2023/09/22 1220"),
         Record(subject: "java", attendance: "출석", time: "2023/09/22 1230"),
@@ -34,6 +35,9 @@ struct MyRecordView: View {
                         
                         TextField("날짜(1330)", text: $time)
                             .padding(.leading, 20)
+                    }
+                    HStack {
+                        TextField("출석 여부", text: $attendance)
                     }
                     HStack {
                         Spacer()
