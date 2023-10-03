@@ -17,6 +17,7 @@ struct AttendanceView: View {
     @State var isCheckToStr: String = ""
     @State var subject: String = ""
     @State var studyTime: String = ""
+    @State var attendaceTime: String = ""
     @State var isAttendance: String = ""
     @State var classroom: String = ""
     @State var grade: String = ""
@@ -88,6 +89,10 @@ struct AttendanceView: View {
                                                 Text("강의 시간 : \(studyTime)")
                                                     .font(.system(size: 25))
                                                     .padding(.bottom, 15)
+                                                Text("출석 시간 : \(attendaceTime)")
+                                                    .font(.system(size: 25))
+                                                    .padding(.bottom, 15)
+                                                
                                                 Text("출석 여부 : \(isAttendance)")
                                                     .font(.system(size: 25))
                                                     .padding(.bottom, 15)
@@ -97,7 +102,7 @@ struct AttendanceView: View {
                                                     .padding(.bottom, 15)
                                             }
                                         } else {
-                                            Text("출석 가능한 강의가 없습니다.")
+                                            Text("이번시간에 출석할 강의가 없어요.")
                                         }
                                     }
                                         
@@ -116,14 +121,16 @@ struct AttendanceView: View {
         .onAppear(perform: {
             attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
                 if let res = res {
+                    print(res)
                     subjectId = res.subjectId
                     subject = res.subjectName ?? ""
                     studyTime = res.scheduleTime ?? ""
-                    isAttendance = res.attendanceAbsenceId ?? "미출석"
+                    isAttendance = res.attendance ?? "미출석"
                     classroom = res.classroom ?? ""
                     name = res.studentName
                     grade = res.grade
                     department = res.department
+                    attendaceTime = res.attendanceTime ?? ""
                 }
             }
             

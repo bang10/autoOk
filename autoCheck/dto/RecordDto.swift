@@ -19,6 +19,7 @@ struct  TodayStudentAttendanceInfoDto: Codable {
     var scheduleTime: String?
     var scheduleDay: String?
     var attendanceAbsenceId: String?
+    var attendance: String?
     var classroom: String?
     var grade: String
     var studentName: String
@@ -26,4 +27,5 @@ struct  TodayStudentAttendanceInfoDto: Codable {
     var department: String
     var departmentId: String
     var studentSubjectId: String?
+    var attendanceTime: String?
 }
