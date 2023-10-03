@@ -138,6 +138,24 @@ struct AttendanceView: View {
         })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
+        .refreshable {
+            attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
+                if let res = res {
+                    print(res)
+                    subjectId = res.subjectId
+                    subject = res.subjectName ?? ""
+                    studyTime = res.scheduleTime ?? ""
+                    isAttendance = res.attendance ?? "미출석"
+                    classroom = res.classroom ?? ""
+                    name = res.studentName
+                    grade = res.grade
+                    department = res.department
+                    attendaceTime = res.attendanceTime ?? ""
+                }
+            }
+            
+            lastAttendanceTime = timeSet.getFormattedDate()
+        }
     }
     
 }
