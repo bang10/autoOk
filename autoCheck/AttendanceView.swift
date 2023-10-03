@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AttendanceView: View {
+    private var attendanceService = AttendanceService()
     @Binding private var studentId: String
     @State var lastAttendanceTime: String = "2033/09/24"
     @State var name: String = "방성환"
@@ -65,9 +66,15 @@ struct AttendanceView: View {
                 Text("소속 : \(department)")
             }
         }
+        .onAppear(perform: {
+            attendanceService.getTodayStudnetAttendaceInfo(studentId: "2018100249") { res, error in
+            print(res)
+            }
+        })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
     }
+    
 }
 
 #Preview {

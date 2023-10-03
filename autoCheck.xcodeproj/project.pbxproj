@@ -27,6 +27,8 @@
 		9A767AE12ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AE02ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift */; };
 		9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */; };
 		9AA425622AC49C2800EEC649 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA425612AC49C2800EEC649 /* AuthenticationService.swift */; };
+		9AA425642ACB9FAA00EEC649 /* AttendanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA425632ACB9FAA00EEC649 /* AttendanceService.swift */; };
+		9AA425662ACBA09300EEC649 /* MyHistoryDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA425652ACBA09300EEC649 /* MyHistoryDto.swift */; };
 		9AA516EA2AC1CD9A00A96A32 /* UserDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA516E92AC1CD9A00A96A32 /* UserDto.swift */; };
 		9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA516EC2AC1CE0300A96A32 /* API_SET.swift */; };
 		9AF7346D2ABDDCC3008C31F1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */; };
@@ -78,6 +80,8 @@
 		9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectBeacon.swift; sourceTree = "<group>"; };
 		9A923FDB2ABD5DDC0000E2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9AA425612AC49C2800EEC649 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		9AA425632ACB9FAA00EEC649 /* AttendanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceService.swift; sourceTree = "<group>"; };
+		9AA425652ACBA09300EEC649 /* MyHistoryDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHistoryDto.swift; sourceTree = "<group>"; };
 		9AA516E92AC1CD9A00A96A32 /* UserDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDto.swift; sourceTree = "<group>"; };
 		9AA516EC2AC1CE0300A96A32 /* API_SET.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_SET.swift; sourceTree = "<group>"; };
 		9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 				9A1DC1602AC0376300AFA5CB /* RecordDto.swift */,
 				9AA516E92AC1CD9A00A96A32 /* UserDto.swift */,
 				9A443B822AC34A4F00A9E277 /* ResponseDataDto.swift */,
+				9AA425652ACBA09300EEC649 /* MyHistoryDto.swift */,
 			);
 			path = dto;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				9A767AC92ABC34C200AC4A71 /* Preview Content */,
 				9A1DC15B2AC02DBA00AFA5CB /* AttendanceView.swift */,
 				9A1DC15D2AC02DCA00AFA5CB /* MyRecordView.swift */,
+				9AA425632ACB9FAA00EEC649 /* AttendanceService.swift */,
 			);
 			path = autoCheck;
 			sourceTree = "<group>";
@@ -412,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA425642ACB9FAA00EEC649 /* AttendanceService.swift in Sources */,
 				9A1DC15C2AC02DBA00AFA5CB /* AttendanceView.swift in Sources */,
 				9A0AEDA32AC62B68000F2E27 /* SecondPassword.swift in Sources */,
 				9A1DC1552AC01B8A00AFA5CB /* JoinView.swift in Sources */,
@@ -431,6 +438,7 @@
 				9A1DC1612AC0376300AFA5CB /* RecordDto.swift in Sources */,
 				9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */,
 				9AF7347A2ABDE86A008C31F1 /* LoginService.swift in Sources */,
+				9AA425662ACBA09300EEC649 /* MyHistoryDto.swift in Sources */,
 				9A1DC1512AC01B7300AFA5CB /* FindStudentIdView.swift in Sources */,
 				9AA425622AC49C2800EEC649 /* AuthenticationService.swift in Sources */,
 			);
@@ -660,8 +668,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KP5Q6WM79X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -679,8 +689,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KP5Q6WM79X;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
