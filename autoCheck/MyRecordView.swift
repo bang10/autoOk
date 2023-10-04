@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyRecordView: View {
+    private var timeSet = TimeSet()
     private var myRecordService = MyRecordService()
     @Binding private var studentId: String
     @State var subjectList: [String] = ["1", "2", "3"]
@@ -59,16 +60,17 @@ struct MyRecordView: View {
                         Text("시간")
                             .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .leading)
                     }
-//
+
                     List(recordList, id: \.self) { record in
                         HStack {
                             Text(record.name)
+                                .font(.system(size: 13))
                                 .frame(width: 50, alignment: .leading)
-//                            Spacer()
+                            Spacer()
                             Text(record.attendance)
                                 .frame(width: 60)
                             Spacer()
-                            Text(record.createdAt)
+                            Text(timeSet.getTimeTranceString(time: record.createdAt))
                                 .frame(width: 140)
                         }
                     }
