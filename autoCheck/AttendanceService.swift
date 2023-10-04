@@ -13,7 +13,6 @@ class AttendanceService {
     
     func getTodayStudnetAttendaceInfo(studentId: String, result: @escaping(TodayStudentAttendanceInfoDto?, Error?) -> Void) {
         AF.request(baseUrl.getBaseUrl() + "/ysu/attendance/today/\(studentId)", method: .get).responseData { res in
-            print(res)
             switch res.result {
             case.success(let value):
                 do {

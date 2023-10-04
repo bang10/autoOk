@@ -8,9 +8,21 @@
 import Foundation
 
 struct Record: Codable, Hashable{
-    var subject: String
+    var subject: String?
+    var attendance: String?
+    var time: String?
+}
+
+struct RecordParamDto: Codable, Hashable {
+    var subjectId: String
+    var strCreatedAt: String
     var attendance: String
-    var time: String
+}
+
+struct GetHistoryDto: Codable, Hashable {
+    var attendance: String
+    var createdAt: String
+    var name: String
 }
 
 struct  TodayStudentAttendanceInfoDto: Codable {

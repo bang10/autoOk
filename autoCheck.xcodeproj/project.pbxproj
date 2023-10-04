@@ -19,6 +19,7 @@
 		9A443B832AC34A4F00A9E277 /* ResponseDataDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A443B822AC34A4F00A9E277 /* ResponseDataDto.swift */; };
 		9A443B872AC350AA00A9E277 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A443B862AC350AA00A9E277 /* UserService.swift */; };
 		9A5CE7642ACC2C7000C8CE30 /* TimeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5CE7632ACC2C7000C8CE30 /* TimeSet.swift */; };
+		9A5CE7662ACC5E5A00C8CE30 /* MyRecordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */; };
 		9A767AC42ABC34C200AC4A71 /* autoCheckApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AC32ABC34C200AC4A71 /* autoCheckApp.swift */; };
 		9A767AC62ABC34C200AC4A71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AC52ABC34C200AC4A71 /* ContentView.swift */; };
 		9A767AC82ABC34C200AC4A71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A767AC72ABC34C200AC4A71 /* Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		9A443B822AC34A4F00A9E277 /* ResponseDataDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDataDto.swift; sourceTree = "<group>"; };
 		9A443B862AC350AA00A9E277 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		9A5CE7632ACC2C7000C8CE30 /* TimeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSet.swift; sourceTree = "<group>"; };
+		9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecordService.swift; sourceTree = "<group>"; };
 		9A767AC02ABC34C200AC4A71 /* autoCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = autoCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A767AC32ABC34C200AC4A71 /* autoCheckApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autoCheckApp.swift; sourceTree = "<group>"; };
 		9A767AC52ABC34C200AC4A71 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				9A1DC15B2AC02DBA00AFA5CB /* AttendanceView.swift */,
 				9A1DC15D2AC02DCA00AFA5CB /* MyRecordView.swift */,
 				9AA425632ACB9FAA00EEC649 /* AttendanceService.swift */,
+				9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */,
 			);
 			path = autoCheck;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				9A443B872AC350AA00A9E277 /* UserService.swift in Sources */,
 				9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */,
 				9A0AEDA62AC63921000F2E27 /* FileManageService.swift in Sources */,
+				9A5CE7662ACC5E5A00C8CE30 /* MyRecordService.swift in Sources */,
 				9A1DC1612AC0376300AFA5CB /* RecordDto.swift in Sources */,
 				9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */,
 				9A5CE7642ACC2C7000C8CE30 /* TimeSet.swift in Sources */,

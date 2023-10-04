@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyHistoryDto: Codable {
+struct MyHistoryDto: Codable, Hashable {
     var studentId: String
     var subjectId: String
     var date: String

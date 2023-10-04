@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct MyRecordView: View {
+    private var myRecordService = MyRecordService()
     @Binding private var studentId: String
     @State var subjectList: [String] = ["1", "2", "3"]
     @State var selectedSubject: String = ""
     @State var time: String = ""
     @State var attendance: String = ""
-    @State var recordList: [Record] = [
-        Record(subject: "cap", attendance: "출석", time: "2023/09/22 1220"),
-        Record(subject: "java", attendance: "출석", time: "2023/09/22 1230"),
-        Record(subject: "spring", attendance: "출석", time: "2023/09/22 2220")
+    @State var recordList: [GetHistoryDto] = [
+        GetHistoryDto(attendance: "", createdAt: "", name: "")
     ]
     
-    init(studentId: Binding<String> = .constant("studentId")) {
+    init(studentId: Binding<String> = .constant("2018100249")) {
         _studentId = studentId
     }
     var body: some View {
@@ -42,7 +41,7 @@ struct MyRecordView: View {
                     HStack {
                         Spacer()
                         Button("검색"){
-                            
+                            getDate()
                         }
                         Spacer()
                     }
@@ -60,23 +59,38 @@ struct MyRecordView: View {
                         Text("시간")
                             .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .leading)
                     }
+//
                     List(recordList, id: \.self) { record in
                         HStack {
-                            Text(record.subject)
+                            Text(record.name)
                                 .frame(width: 50, alignment: .leading)
-                            Spacer()
+//                            Spacer()
                             Text(record.attendance)
                                 .frame(width: 60)
                             Spacer()
-                            Text(record.time)
+                            Text(record.createdAt)
                                 .frame(width: 140)
                         }
                     }
                 })
             }
+            .onAppear(perform: {
+                getDate()
+            })
         }
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
+
+    }
+    
+    func getDate() {
+        myRecordService.getMyHistoryList(studentId: studentId,historyDto: RecordParamDto(subjectId: selectedSubject, strCreatedAt: time, attendance: attendance)) { res, err in
+            if let res = res {
+                DispatchQueue.main.async {
+                    recordList = res
+                }
+            }
+        }
     }
 }
 
