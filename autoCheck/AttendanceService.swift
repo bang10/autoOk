@@ -46,4 +46,17 @@ class AttendanceService {
             }
         }
     }
+    
+    func saveAttendance(param: SSAADto, result: @escaping(Bool) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/attendance/save", method: .post, parameters: param, encoder: JSONParameterEncoder.default).responseJSON { res in
+            if res.response?.statusCode == 200 {
+                switch res.result {
+                case.success(let value):
+                    result(value as? Bool ?? false)
+                case.failure(_):
+                    result(false)
+                }
+            }
+        }
+    }
 }

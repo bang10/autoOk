@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct AttendanceView: View {
+    @EnvironmentObject var connectionBeacon: ConnectBeacon
     private var attendanceService = AttendanceService()
     private var timeSet = TimeSet()
+    private var alert = Alert()
     @Binding private var studentId: String
     @State var lastAttendanceTime: String = ""
     @State var name: String = ""
@@ -37,8 +39,8 @@ struct AttendanceView: View {
                 
                 Section(content: {
                     if subject == "" {
-                        Text("금일 출석할 강의가 없어요.")
-                            .font(.system(size: 25))
+                        Text("이번시간에 출석할 강의가 없어요.")
+                            .font(.system(size: 20))
                             .padding(.bottom, 15)
                     } else {
                         if isAttendance != "출석" {
@@ -67,7 +69,7 @@ struct AttendanceView: View {
                                                     .padding(.bottom, 15)
                                             }
                                         } else {
-                                            Text("출석 가능한 강의가 없습니다.")
+                                            Text("이번시간에 출석할 강의가 없어요.")
                                         }
                                     }
                                         
@@ -121,7 +123,6 @@ struct AttendanceView: View {
         .onAppear(perform: {
             attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
                 if let res = res {
-                    print(res)
                     subjectId = res.subjectId
                     subject = res.subjectName ?? ""
                     studyTime = res.scheduleTime ?? ""
@@ -135,13 +136,25 @@ struct AttendanceView: View {
             }
             
             lastAttendanceTime = timeSet.getFormattedDate()
+            
+            if subject != "", isAttendance != "출석" {
+                if connectionBeacon.beaconDetected {
+                    attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res in
+                        if res {
+                            alert.alert(message: "출석을 성공적으로 했어요.")
+                        } else {
+                            alert.alert(message: "출석을 실패했어요.")
+                        }
+                    }
+                }
+            }
+            
         })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
             attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
                 if let res = res {
-                    print(res)
                     subjectId = res.subjectId
                     subject = res.subjectName ?? ""
                     studyTime = res.scheduleTime ?? ""
@@ -155,6 +168,18 @@ struct AttendanceView: View {
             }
             
             lastAttendanceTime = timeSet.getFormattedDate()
+            
+            if subject != "", isAttendance != "출석" {
+                if connectionBeacon.beaconDetected {
+                    attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res in
+                        if res {
+                            alert.alert(message: "출석을 성공적으로 했어요.")
+                        } else {
+                            alert.alert(message: "출석을 실패했어요.")
+                        }
+                    }
+                }
+            }
         }
     }
     

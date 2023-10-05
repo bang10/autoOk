@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var connectionBeacon: ConnectBeacon
-    
     @Binding private var studentId: String
     
     init(studentId: Binding<String> = .constant("")) {

@@ -51,3 +51,9 @@ struct AttendanceInfoDto:Codable, Hashable {
     var attendanceAbsenceId: String
     var attendance: String
 }
+
+struct SSAADto: Codable {
+    var subjectId: String
+    var studentId: String
+    var studyTime: String
+}
