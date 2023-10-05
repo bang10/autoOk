@@ -60,6 +60,9 @@ struct AttendanceView: View {
                                                 Text("강의 시간 : \(studyTime)")
                                                     .font(.system(size: 25))
                                                     .padding(.bottom, 15)
+                                                Text("출석 시간 : \(attendaceTime)")
+                                                    .font(.system(size: 25))
+                                                    .padding(.bottom, 15)
                                                 Text("출석 여부 : \(isAttendance)")
                                                     .font(.system(size: 25))
                                                     .padding(.bottom, 15)
@@ -126,7 +129,7 @@ struct AttendanceView: View {
                     subjectId = res.subjectId
                     subject = res.subjectName ?? ""
                     studyTime = res.scheduleTime ?? ""
-                    isAttendance = res.attendance ?? "미출석"
+                    isAttendance = res.attendance ?? ""
                     classroom = res.classroom ?? ""
                     name = res.studentName
                     grade = res.grade
@@ -158,7 +161,7 @@ struct AttendanceView: View {
                     subjectId = res.subjectId
                     subject = res.subjectName ?? ""
                     studyTime = res.scheduleTime ?? ""
-                    isAttendance = res.attendance ?? "미출석"
+                    isAttendance = res.attendance ?? ""
                     classroom = res.classroom ?? ""
                     name = res.studentName
                     grade = res.grade
@@ -169,7 +172,7 @@ struct AttendanceView: View {
             
             lastAttendanceTime = timeSet.getFormattedDate()
             
-            if subject != "", isAttendance != "출석" {
+            if subject != "", isAttendance == "" {
                 if connectionBeacon.beaconDetected {
                     attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res in
                         if res {
