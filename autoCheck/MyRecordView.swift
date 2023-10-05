@@ -10,11 +10,19 @@ import SwiftUI
 struct MyRecordView: View {
     private var timeSet = TimeSet()
     private var myRecordService = MyRecordService()
+    private var attendanceService = AttendanceService()
+    private var validityController = ValidityController()
+    private var alert = Alert()
     @Binding private var studentId: String
-    @State var subjectList: [String] = ["1", "2", "3"]
-    @State var selectedSubject: String = ""
+    @State var subjectList: [SubjectBasicInfoDto] = [
+        SubjectBasicInfoDto(subjectId: "", name: "")
+    ]
+    @State var selectedSubject: SubjectBasicInfoDto = SubjectBasicInfoDto(subjectId: "", name: "")
     @State var time: String = ""
-    @State var attendance: String = ""
+    @State var attendanceList: [AttendanceInfoDto] = [
+        AttendanceInfoDto(attendanceAbsenceId: "", attendance: "")
+    ]
+    @State var selectAttendance: AttendanceInfoDto = AttendanceInfoDto(attendanceAbsenceId: "", attendance: "")
     @State var recordList: [GetHistoryDto] = [
         GetHistoryDto(attendance: "", createdAt: "", name: "")
     ]
@@ -25,28 +33,51 @@ struct MyRecordView: View {
     var body: some View {
         VStack {
             Form{
-                Section(content: {
+                Section(header: Text("선택된 강의 : \(selectedSubject.name)\n선택된 출석여부 : \(selectAttendance.attendance)"),
+                        content: {
                     HStack {
                         Picker("강의명", selection: $selectedSubject) {
                             ForEach(subjectList, id: \.self) { index in
-                                Text(index)
+                                Text(index.name)
                             }
                         }
-                        
-                        TextField("날짜(1330)", text: $time)
-                            .padding(.leading, 20)
+                    }
+                    
+                    HStack {
+                        Picker("출석 여부", selection: $selectAttendance) {
+                            ForEach(attendanceList, id: \.self) { index in
+                                Text(index.attendance)
+                            }
+                        }
                     }
                     HStack {
-                        TextField("출석 여부", text: $attendance)
+                        TextField("검색 년도를 입력해 주세요.(20231001)",text: $time)
                     }
                     HStack {
                         Spacer()
                         Button("검색"){
-                            getDate()
+                            if validityController.validateDate(time: time) || time == "" {
+                                getDate()
+                            } else {
+                                time = ""
+                                alert.alert(message: "시간 형식을 지켜주세요.")
+                            }
                         }
                         Spacer()
                     }
+                    
+                    HStack {
+                        Spacer()
+                        Button("초기화") {
+                            selectedSubject = SubjectBasicInfoDto(subjectId: "", name: "")
+                            selectAttendance = AttendanceInfoDto(attendanceAbsenceId: "", attendance: "")
+                        }
+                        Spacer()
+                    }
+                    
+                    
                 })
+
                 
                 Section(content: {
                     HStack {
@@ -78,6 +109,8 @@ struct MyRecordView: View {
             }
             .onAppear(perform: {
                 getDate()
+                getSubjectBasicInfo()
+                getAttendanceInfoList()
             })
         }
         .navigationTitle("출석")
@@ -86,11 +119,27 @@ struct MyRecordView: View {
     }
     
     func getDate() {
-        myRecordService.getMyHistoryList(studentId: studentId,historyDto: RecordParamDto(subjectId: selectedSubject, strCreatedAt: time, attendance: attendance)) { res, err in
+        myRecordService.getMyHistoryList(studentId: studentId,historyDto: RecordParamDto(subjectId: selectedSubject.subjectId, strCreatedAt: time, attendance: selectAttendance.attendanceAbsenceId)) { res, err in
             if let res = res {
                 DispatchQueue.main.async {
                     recordList = res
                 }
+            }
+        }
+    }
+    
+    func getSubjectBasicInfo() {
+        myRecordService.getMySubjectBasicInfo(studentId: studentId) { res, err in
+            if let res = res {
+                subjectList = res
+            }
+        }
+    }
+    
+    func getAttendanceInfoList () {
+        attendanceService.getAttendanceInfo() { res , error in
+            if let res = res {
+                attendanceList = res
             }
         }
     }

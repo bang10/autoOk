@@ -29,4 +29,21 @@ class AttendanceService {
             }
         }
     }
+    
+    func getAttendanceInfo(result: @escaping([AttendanceInfoDto]?, Error?) -> Void) {
+        AF.request(baseUrl.getBaseUrl() + "/ysu/attendance/list", method: .get).responseData { response in
+            switch response.result {
+            case.success(let value):
+                do {
+                    let decoder = JSONDecoder()
+                    let res = try decoder.decode([AttendanceInfoDto].self, from: value as! Data)
+                    result(res, nil)
+                } catch {
+                    result(nil, error)
+                }
+            case.failure(let error):
+                result(nil, error)
+            }
+        }
+    }
 }

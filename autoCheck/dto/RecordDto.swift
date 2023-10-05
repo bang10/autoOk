@@ -41,3 +41,13 @@ struct  TodayStudentAttendanceInfoDto: Codable {
     var studentSubjectId: String?
     var attendanceTime: String?
 }
+
+struct SubjectBasicInfoDto: Codable, Hashable {
+    var subjectId: String
+    var name: String
+}
+
+struct AttendanceInfoDto:Codable, Hashable {
+    var attendanceAbsenceId: String
+    var attendance: String
+}
