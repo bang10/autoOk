@@ -146,6 +146,7 @@ struct AttendanceView: View {
                         if let res =  res {
                             subject = res.subjectName ?? ""
                             isAttendance = res.attendance ?? ""
+                            alert.alert(message: "성공적으로 출석처리 했어요.")
                         } else {
                             alert.alert(message: "출석을 실패했어요.")
                         }
