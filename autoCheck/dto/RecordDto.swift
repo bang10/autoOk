@@ -57,3 +57,8 @@ struct SSAADto: Codable {
     var studentId: String
     var studyTime: String
 }
+
+struct SubjectAttendance: Codable {
+    var subjectName: String?;
+    var attendance: String?;
+}

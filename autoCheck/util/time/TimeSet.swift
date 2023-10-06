@@ -15,6 +15,12 @@ class TimeSet {
             return dateFormatter.string(from: currentDate)
         }
     
+    func formatTime(_ seconds: Int) -> String {
+            let minutes = seconds / 60
+            let seconds = seconds % 60
+            return String(format: "%02d:%02d", minutes, seconds)
+        }
+    
     func getTimeTranceString(time: String) -> String {
         
         // 입력 형식을 정의
@@ -47,4 +53,5 @@ class TimeSet {
             return "NaN"
         }
     }
+    
 }

@@ -47,14 +47,20 @@ class AttendanceService {
         }
     }
     
-    func saveAttendance(param: SSAADto, result: @escaping(Bool) -> Void) {
+    func saveAttendance(param: SSAADto, result: @escaping(SubjectAttendance?, Error?) -> Void) {
         AF.request(baseUrl.getBaseUrl() + "/ysu/attendance/save", method: .post, parameters: param, encoder: JSONParameterEncoder.default).responseJSON { res in
             if res.response?.statusCode == 200 {
                 switch res.result {
                 case.success(let value):
-                    result(value as? Bool ?? false)
-                case.failure(_):
-                    result(false)
+                    do {
+                        let decoder = JSONDecoder()
+                        let res = try decoder.decode(SubjectAttendance.self, from: value as! Data)
+                        result(res, nil)
+                    } catch {
+                        result(nil, error)
+                    }
+                case.failure(let error):
+                    result(nil, error)
                 }
             }
         }
