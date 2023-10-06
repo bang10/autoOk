@@ -27,6 +27,8 @@ struct AttendanceView: View {
     @State var subjectId: String? = ""
     @State private var remainingTime: TimeInterval = 180.0 // 3분
     @State private var timer: Timer?
+    @State var resc: String = ""
+    @State private var isServerRequesting = false
     
     init(studentId: Binding<String> = .constant("2018100249")) {
         _studentId = studentId
@@ -40,6 +42,7 @@ struct AttendanceView: View {
                     Spacer()
                 }
 
+                Text(resc)
                 Section(content: {
                     if subject == "" {
                         Text("이번시간에 출석할 강의가 없어요.")
@@ -133,6 +136,7 @@ struct AttendanceView: View {
         }
         .onAppear(perform: {
             getTodayStudyInfo()
+            attedanceAction()
             resetTimer()
             startTimer()
             
@@ -141,6 +145,7 @@ struct AttendanceView: View {
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
             resetTimer()
+            attedanceAction()
             startTimer()
         }
     }
@@ -165,6 +170,7 @@ struct AttendanceView: View {
     
     }
     func attedanceAction() {
+        resc = "start attendance ation"
         if subject != "", isAttendance != "출석" {
             if connectionBeacon.beaconDetected {
                 attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
@@ -172,12 +178,7 @@ struct AttendanceView: View {
                         subject = res.subjectName ?? ""
                         isAttendance = res.attendance ?? ""
                         stopTimer()
-                        alert.alert(message: "출석을 성공적으로 했어요.")
-                    } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                                    self.timer?.invalidate()
-                                }
-                        startTimer()
+                        alert.alert(message: "출석을 성공적으로 처리했어요.")
                     }
                 }
             }
@@ -185,6 +186,7 @@ struct AttendanceView: View {
     }
     
     func startTimer() {
+        resc = "start timer"
             // 이미 타이머가 실행 중이면 중단
             timer?.invalidate()
             
@@ -192,7 +194,9 @@ struct AttendanceView: View {
             timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 if self.remainingTime > 0 {
                     self.remainingTime -= 1.0
-//                    attedanceAction()
+                    if !isServerRequesting {
+//                        attedanceAction()
+                    }
                 } else {
                     // 타이머가 종료되면 중단
                     timer.invalidate()
