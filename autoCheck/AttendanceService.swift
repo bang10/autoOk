@@ -54,7 +54,8 @@ class AttendanceService {
                 case.success(let value):
                     do {
                         let decoder = JSONDecoder()
-                        let res = try decoder.decode(SubjectAttendance.self, from: value as! Data)
+                        let data = try JSONSerialization.data(withJSONObject: value)
+                        let res = try decoder.decode(SubjectAttendance.self, from: data)
                         result(res, nil)
                     } catch {
                         result(nil, error)

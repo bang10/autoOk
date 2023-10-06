@@ -59,6 +59,6 @@ struct SSAADto: Codable {
 }
 
 struct SubjectAttendance: Codable {
-    var subjectName: String?;
-    var attendance: String?;
+    var subjectName: String?
+    var attendance: String?
 }
