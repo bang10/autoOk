@@ -124,32 +124,22 @@ struct AttendanceView: View {
             }
         }
         .onAppear(perform: {
-            attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
-                if let res = res {
-                    subjectId = res.subjectId
-                    subject = res.subjectName ?? ""
-                    studyTime = res.scheduleTime ?? ""
-                    isAttendance = res.attendance ?? ""
-                    classroom = res.classroom ?? ""
-                    name = res.studentName
-                    grade = res.grade
-                    department = res.department
-                    attendaceTime = res.attendanceTime ?? ""
-                }
-            }
-            
-            lastAttendanceTime = timeSet.getFormattedDate()
-            
-            if subject != "", isAttendance != "출석" {
-                if connectionBeacon.beaconDetected {
-                    attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
-                        if let res =  res {
-                            subject = res.subjectName ?? ""
-                            isAttendance = res.attendance ?? ""
-                            alert.alert(message: "성공적으로 출석처리 했어요.")
-                        } else {
-                            alert.alert(message: "출석을 실패했어요.")
+            getTodayStudyInfo()
+            if isAttendance == "" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    if connectionBeacon.beaconDetected {
+                        attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
+                            if let res =  res {
+                                subject = res.subjectName ?? ""
+                                isAttendance = res.attendance ?? ""
+                                getTodayStudyInfo()
+                                alert.alert(message: "성공적으로 출석을 했어요.")
+                            } else {
+                                alert.alert(message: "출석을 실패했어요.")
+                            }
                         }
+                    } else {
+                        alert.alert(message: "비콘을 인식하지 못했어요. 새로고침 해주세요.")
                     }
                 }
             }
@@ -158,28 +148,13 @@ struct AttendanceView: View {
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
-            attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
-                if let res = res {
-                    subjectId = res.subjectId
-                    subject = res.subjectName ?? ""
-                    studyTime = res.scheduleTime ?? ""
-                    isAttendance = res.attendance ?? ""
-                    classroom = res.classroom ?? ""
-                    name = res.studentName
-                    grade = res.grade
-                    department = res.department
-                    attendaceTime = res.attendanceTime ?? ""
-                }
-            }
-            
-            lastAttendanceTime = timeSet.getFormattedDate()
-            
             if subject != "", isAttendance == "" {
                 if connectionBeacon.beaconDetected {
                     attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
                         if let res =  res {
                             subject = res.subjectName ?? ""
                             isAttendance = res.attendance ?? ""
+                            getTodayStudyInfo()
                             alert.alert(message: "출석을 성공적으로 했어요.")
                         } else {
                             alert.alert(message: "출석을 실패했어요.")
@@ -188,6 +163,25 @@ struct AttendanceView: View {
                 }
             }
         }
+        
+    }
+    
+    func getTodayStudyInfo() {
+        attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
+            if let res = res {
+                subjectId = res.subjectId
+                subject = res.subjectName ?? ""
+                studyTime = res.scheduleTime ?? ""
+                isAttendance = res.attendance ?? ""
+                classroom = res.classroom ?? ""
+                name = res.studentName
+                grade = res.grade
+                department = res.department
+                attendaceTime = res.attendanceTime ?? ""
+            }
+        }
+        
+        lastAttendanceTime = timeSet.getFormattedDate()
     }
     
 }
