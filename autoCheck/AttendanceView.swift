@@ -148,7 +148,7 @@ struct AttendanceView: View {
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
-            if subject != "", isAttendance == "" {
+            if isAttendance == "" {
                 if connectionBeacon.beaconDetected {
                     attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
                         if let res =  res {
