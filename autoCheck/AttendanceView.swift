@@ -24,6 +24,7 @@ struct AttendanceView: View {
     @State var classroom: String = ""
     @State var grade: String = ""
     @State var subjectId: String? = ""
+    @State var isGetData: Bool = false
     
     init(studentId: Binding<String> = .constant("2018100249")) {
         _studentId = studentId
@@ -124,26 +125,9 @@ struct AttendanceView: View {
             }
         }
         .onAppear(perform: {
-            getTodayStudyInfo()
-            if isAttendance == "" {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    if connectionBeacon.beaconDetected {
-                        attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
-                            if let res =  res {
-                                subject = res.subjectName ?? ""
-                                isAttendance = res.attendance ?? ""
-                                getTodayStudyInfo()
-                                alert.alert(message: "성공적으로 출석을 했어요.")
-                            } else {
-                                alert.alert(message: "출석을 실패했어요.")
-                            }
-                        }
-                    } else {
-                        alert.alert(message: "비콘을 인식하지 못했어요. 새로고침 해주세요.")
-                    }
-                }
+            Task {
+                await getTodayStudyInfo()
             }
-            
         })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
@@ -154,7 +138,21 @@ struct AttendanceView: View {
                         if let res =  res {
                             subject = res.subjectName ?? ""
                             isAttendance = res.attendance ?? ""
-                            getTodayStudyInfo()
+                            attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
+                                if let res = res {
+                                    subjectId = res.subjectId
+                                    subject = res.subjectName ?? ""
+                                    studyTime = res.scheduleTime ?? ""
+                                    isAttendance = res.attendance ?? ""
+                                    classroom = res.classroom ?? ""
+                                    name = res.studentName
+                                    grade = res.grade
+                                    department = res.department
+                                    attendaceTime = res.attendanceTime ?? ""
+                                }
+                            }
+                            
+                            lastAttendanceTime = timeSet.getFormattedDate()
                             alert.alert(message: "출석을 성공적으로 했어요.")
                         } else {
                             alert.alert(message: "출석을 실패했어요.")
@@ -166,7 +164,7 @@ struct AttendanceView: View {
         
     }
     
-    func getTodayStudyInfo() {
+    func getTodayStudyInfo() async {
         attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
             if let res = res {
                 subjectId = res.subjectId
@@ -178,7 +176,30 @@ struct AttendanceView: View {
                 grade = res.grade
                 department = res.department
                 attendaceTime = res.attendanceTime ?? ""
+                
+                if isAttendance == "" {
+                        if connectionBeacon.beaconDetected {
+                            attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
+                                if let res =  res {
+                                    subject = res.subjectName ?? ""
+                                    isAttendance = res.attendance ?? ""
+                                    Task {
+                                     await getTodayStudyInfo()
+                                    }
+                                    
+                                    alert.alert(message: "성공적으로 출석을 했어요.")
+                                } else {
+                                    alert.alert(message: "출석을 실패했어요.")
+                                }
+                            }
+                        } else {
+                            alert.alert(message: "비콘을 인식하지 못했어요. 새로고침 해주세요.")
+                        }
+                    
+                }
+                
             }
+        
         }
         
         lastAttendanceTime = timeSet.getFormattedDate()
