@@ -22,28 +22,20 @@ class TimeSet {
         }
     
     func getTimeTranceString(time: String) -> String {
-        
-        // 입력 형식을 정의
         let inputDateFormatter = DateFormatter()
         inputDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         inputDateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
-        // 입력 문자열을 Date로 변환
         if let inputDate = inputDateFormatter.date(from: time) {
-            // Calendar 객체 생성
             var calendar = Calendar.current
             
-            // 날짜 계산을 위한 DateComponents 생성
             var dateComponents = DateComponents()
-            dateComponents.hour = -9 // 9시간을 빼려면 음수로 설정
+            dateComponents.hour = -9
             
-            // 9시간을 뺀 새로운 Date 계산
             if let modifiedDate = calendar.date(byAdding: dateComponents, to: inputDate) {
-                // 출력 형식을 정의
                 let outputDateFormatter = DateFormatter()
                 outputDateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-                
-                // 새로운 Date를 출력 형식의 문자열로 변환
+            
                 let outputDateString = outputDateFormatter.string(from: modifiedDate)
                 return outputDateString
             } else {

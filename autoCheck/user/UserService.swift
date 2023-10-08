@@ -70,7 +70,8 @@ class UserService {
         }
     }
     
-    func updatePassword(updatePassword: UpdatePasswordDto, result: @escaping(Bool?) -> Void) {
+    func 
+    updatePassword(updatePassword: UpdatePasswordDto, result: @escaping(Bool?) -> Void) {
         AF.request(baseUrl.getBaseUrl() + "/ysu/user/update/password", method: .post, parameters: updatePassword, encoder: JSONParameterEncoder.default).responseJSON { res in
             if res.response?.statusCode == 200 {
                 switch res.result {

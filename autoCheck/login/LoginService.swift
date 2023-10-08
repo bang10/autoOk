@@ -18,7 +18,6 @@ class LoginService {
                 res(value as? Bool)
             case.failure(let error) :
                 res(nil)
-                print(error)
             }
         }
     }
