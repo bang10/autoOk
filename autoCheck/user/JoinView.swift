@@ -86,7 +86,7 @@ struct JoinView: View {
                     , content: {
                         TextField("4", text: $grade)
                         if !validityController.validateGrade(grade: grade) {
-                            Text("옳바른 학년을 입력해 주세요.")
+                            Text("올바른 학년을 입력해 주세요.")
                         }
                     }
                 )
@@ -110,7 +110,7 @@ struct JoinView: View {
                                         }
                                     }
                                 } else {
-                                    alert.alert(message: "미입력 칸이 있거나, 옳바른 전화번호 형식이 아니에요.")
+                                    alert.alert(message: "미입력 칸이 있거나, 올바른 전화번호 형식이 아니에요.")
                                 }
                             }
                             Spacer()

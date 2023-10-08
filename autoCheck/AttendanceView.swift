@@ -198,7 +198,7 @@ struct AttendanceView: View {
     }
     
 }
-
-#Preview {
-    AttendanceView()
-}
+//
+//#Preview {
+//    AttendanceView()
+//}

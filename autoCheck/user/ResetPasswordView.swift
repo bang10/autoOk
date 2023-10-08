@@ -55,7 +55,7 @@ struct ResetPassword: View {
                                     }
                                 }
                             } else {
-                                alert.alert(message: "미입력 칸이 있거나, 옳바른 전화번호 형식이 아닙니다.")
+                                alert.alert(message: "미입력 칸이 있거나, 올바른 전화번호 형식이 아닙니다.")
                             }
                         }
                         Spacer()
