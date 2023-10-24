@@ -101,9 +101,12 @@ struct JoinView: View {
                             Button ("인증 번호 전송") {
                                 if validityController.validateTell(tell: tellNumber){
                                     authenticationService.sendSMS(to: tellNumber) { res, error in
+                                        if let error = error {
+                                            print(error)
+                                        }
                                         if let res = res {
                                             tellAuthNumberCheck = res
-                                            alert.alert(message: "인증번호를 작성했어요. \n인증코드를 받지 못했다면 번호를 확인해 주세요.")
+                                            alert.alert(message: "인증번호를 전송했어요. \n인증코드를 받지 못했다면 번호를 확인해 주세요.")
                                             
                                         } else {
                                             alert.alert(message: "오류가 발생했어요. \n지속적으로 발생한다면 bang369953@gmail.com으로 연락주세요.")
