@@ -56,7 +56,7 @@ struct LoginView: View {
                             if let res = res {
                                 if res {
                                     UserDefaults.standard.set(studentId, forKey: "userID")
-                                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                                    UserDefaults.standard.set(password, forKey: "password")
                                     isLogin = true
                                 } else {
                                     alert.alert(message: "아직 미인증된 학생 계정이에요. 가입일로 부터 최대 3영업일이 소요될 수 있어요.")
@@ -113,7 +113,21 @@ struct LoginView: View {
                     if UserDefaults.standard.bool(forKey: "isLoggedIn") {
                         if let savedUserID = UserDefaults.standard.string(forKey: "userID") {
                             studentId = savedUserID
-                            isLogin = true
+                            if let savedUserPassword = UserDefaults.standard.string(forKey: "password") {
+                                password = savedUserPassword
+                                loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) { res in
+                                    if let res = res {
+                                        if res {
+                                            isLogin = true
+                                        } else {
+                                            alert.alert(message: "일치하는 정보가 없습니다.")
+                                        }
+                                    } else {
+                                        alert.alert(message: "서버 오류가 발생했어요.")
+                                    }
+                                        
+                                }
+                            }
                         }
                     }
                 })
