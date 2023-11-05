@@ -8,7 +8,7 @@
 import Foundation
 
 class API_SET {
-    private let BASE_URL: String = "https://1f28-14-35-203-26.ngrok-free.app"
+    private let BASE_URL: String = "http://ysuautocheck.iptime.org:8000"
     
     func getBaseUrl() -> String {
         return BASE_URL;

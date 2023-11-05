@@ -110,23 +110,21 @@ struct LoginView: View {
                     
                 } //VStack
                 .onAppear(perform: {
-                    if UserDefaults.standard.bool(forKey: "isLoggedIn") {
-                        if let savedUserID = UserDefaults.standard.string(forKey: "userID") {
+                    if let savedUserID = UserDefaults.standard.string(forKey: "userID") {
+                        if let savedUserPassword = UserDefaults.standard.string(forKey: "password") {
                             studentId = savedUserID
-                            if let savedUserPassword = UserDefaults.standard.string(forKey: "password") {
-                                password = savedUserPassword
-                                loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) { res in
-                                    if let res = res {
-                                        if res {
-                                            isLogin = true
-                                        } else {
-                                            alert.alert(message: "일치하는 정보가 없습니다.")
-                                        }
+                            password = savedUserPassword
+                            loginService.login(loginDto: LoginDto(studentId: studentId, password: password)) { res in
+                                if let res = res {
+                                    if res {
+                                        isLogin = true
                                     } else {
-                                        alert.alert(message: "서버 오류가 발생했어요.")
+                                        alert.alert(message: "일치하는 정보가 없습니다.")
                                     }
-                                        
+                                } else {
+                                    alert.alert(message: "서버 오류가 발생했어요.")
                                 }
+                                    
                             }
                         }
                     }
