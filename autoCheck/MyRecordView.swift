@@ -31,7 +31,6 @@ struct MyRecordView: View {
         _studentId = studentId
     }
     var body: some View {
-        NavigationView {
             VStack {
                 Form{
                     Section(header: Text("선택된 강의 : \(selectedSubject.name)\n선택된 출석여부 : \(selectAttendance.attendance)"),
@@ -116,7 +115,6 @@ struct MyRecordView: View {
             }
             .navigationTitle("출석")
             .navigationBarTitleDisplayMode(.inline)
-        }
 
     }
     

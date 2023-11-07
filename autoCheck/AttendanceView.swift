@@ -13,6 +13,8 @@ struct AttendanceView: View {
     private var timeSet = TimeSet()
     private var alert = Alert()
     @Binding private var studentId: String
+    @State private var time = 180
+    @State private var timerInterval = 1.0
     @State var lastAttendanceTime: String = ""
     @State var name: String = ""
     @State var department: String = ""
@@ -31,7 +33,6 @@ struct AttendanceView: View {
     }
     var body: some View {
         VStack {
-            if isGetData {
                 Form {
                     HStack {
                         Spacer()
@@ -40,6 +41,9 @@ struct AttendanceView: View {
                     }
                     
                     Section(content: {
+                        if !isGetData {
+                            Text("남은 시간: \(formatTime(time))")
+                        }
                         if subject == "" {
                             Text("이번시간에 출석할 강의가 없어요.")
                                 .font(.system(size: 20))
@@ -124,34 +128,52 @@ struct AttendanceView: View {
                     Text("학년 : \(grade)")
                     Text("소속 : \(department)")
                 }
-            } else {
-                Image(systemName: "square.stack.3d.up")
-                    .font(.system(size: 30))
-                    .transition(AnyTransition.opacity.animation(.easeInOut))
-                    
-                Text("데이터를 가져오고 있고, 출석 처리를 하고 있어요.")
-                    .padding(.top, 5)
-            }
             
         }
         .onAppear(perform: {
-            Task {
-                await getTodayStudyInfo()
+            getTodayStudyInfo()
+            lastAttendanceTime = timeSet.getFormattedDate()
+                
+            Timer.scheduledTimer(withTimeInterval: timerInterval, repeats: true) { timer in
+                if time > 0 {
+                    if connectionBeacon.beaconDetected {
+                        if isAttendance == "" {
+                            attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
+                                if let res =  res {
+                                    self.isGetData = true
+                                    subject = res.subjectName ?? ""
+                                    isAttendance = res.attendance ?? ""
+
+                                    self.isGetData = true
+                                    alert.alert(message: "성공적으로 출석을 했어요.")
+                                } else {
+                                    alert.alert(message: "출석을 실패했어요.")
+                                }
+                            }
+                        }
+                    }
+                    time -= 1
+                } else if time == 0 || isGetData {
+                    timer.invalidate()
+                }
             }
         })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
-            self.isGetData = false
-            Task {
-                await getTodayStudyInfo()
-            }
-
+            time = 180
+            getTodayStudyInfo()
         }
         
     }
     
-    func getTodayStudyInfo() async {
+    func formatTime(_ seconds: Int) -> String {
+        let minutes = seconds / 60
+        let seconds = seconds % 60
+        return String(format: "%02d분 %02d초", minutes, seconds)
+    }
+    
+    func getTodayStudyInfo() {
         attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
             if let res = res {
                 subjectId = res.subjectId
@@ -163,42 +185,14 @@ struct AttendanceView: View {
                 grade = res.grade
                 department = res.department
                 attendaceTime = res.attendanceTime ?? ""
-                
-                if isAttendance == "" {
-                        if connectionBeacon.beaconDetected {
-                            attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
-                                if let res =  res {
-                                    self.isGetData = true
-                                    subject = res.subjectName ?? ""
-                                    isAttendance = res.attendance ?? ""
-                                    Task {
-                                     await getTodayStudyInfo()
-                                    }
-                                    
-                                    self.isGetData = true
-                                    alert.alert(message: "성공적으로 출석을 했어요.")
-                                } else {
-                                    self.isGetData = true
-                                    alert.alert(message: "출석을 실패했어요.")
-                                }
-                            }
-                        } else {
-                            self.isGetData = true
-                            alert.alert(message: "비콘을 인식하지 못했어요. 새로고침 해주세요.")
-                        }
-                    
-                }
-                self.isGetData = true
-                
+
             }
         
         }
-        
-        lastAttendanceTime = timeSet.getFormattedDate()
     }
     
 }
-//
-//#Preview {
-//    AttendanceView()
-//}
+
+#Preview {
+    AttendanceView()
+}
