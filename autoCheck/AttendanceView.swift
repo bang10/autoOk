@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityKit
 
 struct AttendanceView: View {
     @EnvironmentObject var connectionBeacon: ConnectBeacon
@@ -13,7 +14,7 @@ struct AttendanceView: View {
     private var timeSet = TimeSet()
     private var alert = Alert()
     @Binding private var studentId: String
-    @State private var time = 180
+    @State private var time = 0
     @State private var timerInterval = 1.0
     @State var lastAttendanceTime: String = ""
     @State var name: String = ""
@@ -26,7 +27,9 @@ struct AttendanceView: View {
     @State var classroom: String = ""
     @State var grade: String = ""
     @State var subjectId: String? = ""
-    @State var isGetData: Bool = false
+    @State private var isGetData: Bool = false
+    
+    @State var activity: Activity<dynamicIslandAttributes>? = nil
     
     init(studentId: Binding<String> = .constant("2018100249")) {
         _studentId = studentId
@@ -42,12 +45,16 @@ struct AttendanceView: View {
                     
                     Section(content: {
                         if !isGetData {
-                            Text("남은 시간: \(formatTime(time))")
+                            Text("소요 시간: \(formatTime(time))")
                         }
                         if subject == "" {
-                            Text("이번시간에 출석할 강의가 없어요.")
-                                .font(.system(size: 20))
-                                .padding(.bottom, 15)
+                            HStack {
+                                Spacer()
+                                Text("이번시간에 출석할 강의가 없어요.")
+                                    .font(.system(size: 20))
+                                    .padding(.bottom, 15)
+                                Spacer()
+                            }
                         } else {
                             if isAttendance != "출석" {
                                 RoundedRectangle(cornerRadius: 10)
@@ -131,11 +138,18 @@ struct AttendanceView: View {
             
         }
         .onAppear(perform: {
-            getTodayStudyInfo()
+            Task {
+                await getTodayStudyInfo()
+            }
             lastAttendanceTime = timeSet.getFormattedDate()
+            
+            let attributes = dynamicIslandAttributes()
+            let state = dynamicIslandAttributes.ContentState(time: formatTime(time), text: "출석처리중", subject: subject, classroom: classroom)
+            
+            activity = try? Activity<dynamicIslandAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
                 
             Timer.scheduledTimer(withTimeInterval: timerInterval, repeats: true) { timer in
-                if time > 0 {
+                if !isGetData {
                     if connectionBeacon.beaconDetected {
                         if isAttendance == "" {
                             attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
@@ -151,18 +165,26 @@ struct AttendanceView: View {
                                 }
                             }
                         }
+                        if subject == "" {
+                            alert.alert(message: "출석할 강의가 없어요.")
+                            self.isGetData = true
+                        }
                     }
-                    time -= 1
-                } else if time == 0 || isGetData {
+                    time += 1
+                } else if isGetData {
                     timer.invalidate()
                 }
             }
+            
         })
         .navigationTitle("출석")
         .navigationBarTitleDisplayMode(.automatic)
         .refreshable {
-            time = 180
-            getTodayStudyInfo()
+            time = 0
+            Task {
+                await getTodayStudyInfo()
+            }
+            
         }
         
     }
@@ -173,7 +195,7 @@ struct AttendanceView: View {
         return String(format: "%02d분 %02d초", minutes, seconds)
     }
     
-    func getTodayStudyInfo() {
+    func getTodayStudyInfo() async {
         attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
             if let res = res {
                 subjectId = res.subjectId

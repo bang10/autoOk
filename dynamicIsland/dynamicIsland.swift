@@ -7,78 +7,51 @@
 
 import WidgetKit
 import SwiftUI
+import ActivityKit
 
-struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
-    }
-
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
-    }
-}
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let configuration: ConfigurationAppIntent
-}
-
-struct dynamicIslandEntryView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
-        }
-    }
-}
-
-struct dynamicIsland: Widget {
-    let kind: String = "dynamicIsland"
-
+struct Time_Widget: Widget {
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            dynamicIslandEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+        ActivityConfiguration(for: dynamicIslandAttributes.self) { context in
+            TimeTrackingWidgetView(context: context)
+        } dynamicIsland: { context in
+            DynamicIsland {
+                DynamicIslandExpandedRegion(.leading) {
+                    if let subject = context.state.subject {
+                        Text("\(subject)")
+                    }
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    if let classroom = context.state.classroom {
+                        Text("\(classroom)")
+                    }
+                }
+                DynamicIslandExpandedRegion(.bottom) {
+                    Text(context.state.text)
+                        .padding(.bottom, 5)
+                    Text(context.state.time)
+                }
+            } compactLeading: {
+                Text("\(context.state.time)")
+            } compactTrailing: {
+                Text("\(context.state.text)")
+            } minimal: {
+                Text("M")
+            }
+
         }
     }
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
+struct TimeTrackingWidgetView: View {
+    let context: ActivityViewContext<dynamicIslandAttributes>
     
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
+    var body: some View {
+        HStack {
+            Text("남은 시간: \(context.state.time)")
+                .padding(.leading, 10)
+            Spacer()
+            Text("\(context.state.text)")
+                .padding(.trailing, 10)
+        }
     }
-}
-
-#Preview(as: .systemSmall) {
-    dynamicIsland()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
 }
