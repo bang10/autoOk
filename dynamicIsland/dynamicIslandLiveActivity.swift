@@ -13,11 +13,13 @@ struct dynamicIslandAttributes: ActivityAttributes {
     
     public struct ContentState: Codable, Hashable {
         var time: String
-        var text: String
-        var subject: String?
-        var classroom: String?
+        var isAttendance: String
+        var subjectName: String
+        var classroom: String
     }
 
     // Fixed non-changing properties about your activity go here!
 //    var name: String
 }
+
+

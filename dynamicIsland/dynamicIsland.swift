@@ -15,27 +15,22 @@ struct Time_Widget: Widget {
             TimeTrackingWidgetView(context: context)
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    if let subject = context.state.subject {
-                        Text("\(subject)")
-                    }
-                }
-                DynamicIslandExpandedRegion(.trailing) {
-                    if let classroom = context.state.classroom {
-                        Text("\(classroom)")
-                    }
-                }
+                DynamicIslandExpandedRegion(.leading) {}
+                DynamicIslandExpandedRegion(.trailing) {}
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text(context.state.text)
-                        .padding(.bottom, 5)
-                    Text(context.state.time)
+                    VStack(alignment: .leading) {
+                        Text("교과명: \(context.state.subjectName)")
+                        Text("강의실: \(context.state.classroom)")
+                        Text("출석여부: \(context.state.isAttendance)")
+                        Text("소요시간: \(context.state.time)")
+                    }
                 }
             } compactLeading: {
-                Text("\(context.state.time)")
+                Text("\(context.state.subjectName)")
             } compactTrailing: {
-                Text("\(context.state.text)")
+                Text("\(context.state.isAttendance)")
             } minimal: {
-                Text("M")
+                
             }
 
         }
@@ -47,11 +42,17 @@ struct TimeTrackingWidgetView: View {
     
     var body: some View {
         HStack {
-            Text("남은 시간: \(context.state.time)")
-                .padding(.leading, 10)
+            Text("교과명: \(context.state.subjectName) \n출석 여부: \(context.state.isAttendance)")
+                .padding(.leading, 5)
             Spacer()
-            Text("\(context.state.text)")
-                .padding(.trailing, 10)
+            Text("소요시간: ")
+                .font(.system(size: 15))
+            Text("\(context.state.time)")
+                .font(.system(size: 27))
+                .padding(.trailing, 15)
         }
     }
+    
 }
+
+
