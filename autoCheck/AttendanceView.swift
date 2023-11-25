@@ -12,6 +12,7 @@ struct AttendanceView: View {
     @Binding private var studentId: String
     private var attendanceStruct = AttendanceBeacon()
     private var attendanceService = AttendanceService()
+    private var notification = NotificationModel()
     private var timeSet = TimeSet()
     private var alert = Alert()
     let attrbutes = dynamicIslandAttributes()
@@ -129,8 +130,9 @@ struct AttendanceView: View {
         }
 
         .onAppear(perform: {
-            let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
-            
+            notification.pushNotification(title: "출석 안내", body: "출석 처리가 \(getTodayAttendaceInfo?.attendance ?? "")으로 되었습니다.", seconds: 1, identifier: "PUSH_TEST")
+            HapticHelper.shared.impact(style: .medium)
+            let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
                 activity = try? Activity<dynamicIslandAttributes>.request(attributes: attrbutes, contentState: state)
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
                 Task {
@@ -149,6 +151,13 @@ struct AttendanceView: View {
         do {
             let res = try await attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId)
                 getTodayAttendaceInfo = res
+            if res.attendance != nil {
+                Task {
+                    for activity in Activity<dynamicIslandAttributes>.activities {
+                        await activity.end(dismissalPolicy: .immediate)
+                    }
+                }
+            }
             isGetData = true
         } catch {
             print("\(error)")
@@ -160,36 +169,36 @@ struct AttendanceView: View {
         Task {
             do {
                 try await getTodayStudyInfo()
-                        if let getTodayAttendaceInfo = getTodayAttendaceInfo {
-                            if let subjectId = getTodayAttendaceInfo.subjectId {
-                                if subjectId != "" {
-                                    if let attendance = getTodayAttendaceInfo.attendance {
-                                        isAttendance = true
-                                    } // attendance Unlapping
-                                    else {
-                                        attendanceStruct.detectBeacon(ssAaDto: SSAADto(subjectId: getTodayAttendaceInfo.subjectId ?? "", studentId: self.studentId, studyTime: getTodayAttendaceInfo.scheduleTime ?? "", isAttendance: getTodayAttendaceInfo.attendance ?? "")) { res in
-                                            if let res = res {
-                                                if res {
-                                                    alert.alert(message: "출석에 성공했어요.")
-                                                    Task {
-                                                        do {
-                                                            try await getTodayStudyInfo()
-                                                        } catch {
-                                                            print("error")
-                                                        }
-                                                    }
-                                                    isAttendance = true
+                if let getTodayAttendaceInfo = getTodayAttendaceInfo {
+                    if let subjectId = getTodayAttendaceInfo.subjectId {
+                        if subjectId != "" {
+                            if let attendance = getTodayAttendaceInfo.attendance {
+                                isAttendance = true
+                            } // attendance Unlapping
+                            else {
+                                attendanceStruct.detectBeacon(ssAaDto: SSAADto(subjectId: getTodayAttendaceInfo.subjectId ?? "", studentId: self.studentId, studyTime: getTodayAttendaceInfo.scheduleTime ?? "", isAttendance: getTodayAttendaceInfo.attendance ?? "")) { res in
+                                    if let res = res {
+                                        if res {
+                                            alert.alert(message: "출석에 성공했어요.")
+                                            Task {
+                                                do {
+                                                    try await getTodayStudyInfo()
+                                                } catch {
+                                                    print("error")
                                                 }
                                             }
+                                            isAttendance = true
                                         }
                                     }
-                                } // subjectId check isEmpty
-                            } // subjectId Unlapping
-                            Task {
-                                let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time), isAttendance: getTodayAttendaceInfo.attendance ?? getTodayAttendaceInfo.attendance ?? "출석중", subjectName: getTodayAttendaceInfo.subjectName ?? "", classroom: getTodayAttendaceInfo.classroom ?? "")
-                                await activity?.update(using: state)
+                                }
                             }
-                        } // getTodayAttendance
+                        } // subjectId check isEmpty
+                    } // subjectId Unlapping
+                    Task {
+                        let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo.attendance ?? getTodayAttendaceInfo.attendance ?? "출석중", subjectName: getTodayAttendaceInfo.subjectName ?? "", classroom: getTodayAttendaceInfo.classroom ?? "")
+                        await activity?.update(using: state)
+                    }
+                } // getTodayAttendance
                 try await Thread.sleep(forTimeInterval: 1.0)
             } catch {
                 print("error")
@@ -197,6 +206,14 @@ struct AttendanceView: View {
         }
         isAttendance = true
     }
+    
+//    func endActicity(activity: Activity<dynamicIslandAttributes>) {
+//        Task {
+//            for acticivy in Activity<dynamicIslandAttributes>.activities {
+//                await acticivy.end(dismissalPolicy: .immediate)
+//            }
+//        }
+//    }
 } // struct
 
 #Preview {

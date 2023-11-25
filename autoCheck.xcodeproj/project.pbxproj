@@ -17,6 +17,7 @@
 		9A1DC1612AC0376300AFA5CB /* RecordDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DC1602AC0376300AFA5CB /* RecordDto.swift */; };
 		9A443B832AC34A4F00A9E277 /* ResponseDataDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A443B822AC34A4F00A9E277 /* ResponseDataDto.swift */; };
 		9A443B872AC350AA00A9E277 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A443B862AC350AA00A9E277 /* UserService.swift */; };
+		9A47C3172B124A0300155397 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A47C3162B124A0300155397 /* NotificationModel.swift */; };
 		9A5CE7642ACC2C7000C8CE30 /* TimeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5CE7632ACC2C7000C8CE30 /* TimeSet.swift */; };
 		9A5CE7662ACC5E5A00C8CE30 /* MyRecordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */; };
 		9A767AC42ABC34C200AC4A71 /* autoCheckApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AC32ABC34C200AC4A71 /* autoCheckApp.swift */; };
@@ -44,6 +45,7 @@
 		9AA425662ACBA09300EEC649 /* MyHistoryDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA425652ACBA09300EEC649 /* MyHistoryDto.swift */; };
 		9AA516EA2AC1CD9A00A96A32 /* UserDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA516E92AC1CD9A00A96A32 /* UserDto.swift */; };
 		9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA516EC2AC1CE0300A96A32 /* API_SET.swift */; };
+		9ABA29452B124C2400DBEEE9 /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA29442B124C2400DBEEE9 /* HapticHelper.swift */; };
 		9AF7346D2ABDDCC3008C31F1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */; };
 		9AF734702ABDE630008C31F1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9AF7346F2ABDE630008C31F1 /* Alamofire */; };
 		9AF734752ABDE6C2008C31F1 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF734742ABDE6C2008C31F1 /* Alert.swift */; };
@@ -101,6 +103,7 @@
 		9A1DC1602AC0376300AFA5CB /* RecordDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDto.swift; sourceTree = "<group>"; };
 		9A443B822AC34A4F00A9E277 /* ResponseDataDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDataDto.swift; sourceTree = "<group>"; };
 		9A443B862AC350AA00A9E277 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		9A47C3162B124A0300155397 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		9A5CE7632ACC2C7000C8CE30 /* TimeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSet.swift; sourceTree = "<group>"; };
 		9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecordService.swift; sourceTree = "<group>"; };
 		9A767AC02ABC34C200AC4A71 /* autoCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = autoCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +133,7 @@
 		9AA425652ACBA09300EEC649 /* MyHistoryDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHistoryDto.swift; sourceTree = "<group>"; };
 		9AA516E92AC1CD9A00A96A32 /* UserDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDto.swift; sourceTree = "<group>"; };
 		9AA516EC2AC1CE0300A96A32 /* API_SET.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_SET.swift; sourceTree = "<group>"; };
+		9ABA29442B124C2400DBEEE9 /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		9AF7346C2ABDDCC3008C31F1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9AF734742ABDE6C2008C31F1 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		9AF734772ABDE78B008C31F1 /* ValidityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityController.swift; sourceTree = "<group>"; };
@@ -217,6 +221,14 @@
 			path = dto;
 			sourceTree = "<group>";
 		};
+		9A47C3152B1249E700155397 /* notification */ = {
+			isa = PBXGroup;
+			children = (
+				9A47C3162B124A0300155397 /* NotificationModel.swift */,
+			);
+			path = notification;
+			sourceTree = "<group>";
+		};
 		9A5CE7622ACC2C6500C8CE30 /* time */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +310,8 @@
 		9A767AED2ABC4D4F00AC4A71 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				9ABA29432B124C1500DBEEE9 /* haptic */,
+				9A47C3152B1249E700155397 /* notification */,
 				9A5CE7622ACC2C6500C8CE30 /* time */,
 				9A0AEDA42AC63917000F2E27 /* file */,
 				9AA425602AC49C0F00EEC649 /* auth */,
@@ -346,6 +360,14 @@
 				9AA516EC2AC1CE0300A96A32 /* API_SET.swift */,
 			);
 			path = connect;
+			sourceTree = "<group>";
+		};
+		9ABA29432B124C1500DBEEE9 /* haptic */ = {
+			isa = PBXGroup;
+			children = (
+				9ABA29442B124C2400DBEEE9 /* HapticHelper.swift */,
+			);
+			path = haptic;
 			sourceTree = "<group>";
 		};
 		9AF7346B2ABDDCB4008C31F1 /* login */ = {
@@ -540,6 +562,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ABA29452B124C2400DBEEE9 /* HapticHelper.swift in Sources */,
 				9AA425642ACB9FAA00EEC649 /* AttendanceService.swift in Sources */,
 				9A0AEDA32AC62B68000F2E27 /* SecondPassword.swift in Sources */,
 				9A1DC1552AC01B8A00AFA5CB /* JoinView.swift in Sources */,
@@ -555,6 +578,7 @@
 				9AF7346D2ABDDCC3008C31F1 /* LoginView.swift in Sources */,
 				9A8CD1DA2AFA92990058D049 /* dynamicIslandLiveActivity.swift in Sources */,
 				9A443B872AC350AA00A9E277 /* UserService.swift in Sources */,
+				9A47C3172B124A0300155397 /* NotificationModel.swift in Sources */,
 				9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */,
 				9A0AEDA62AC63921000F2E27 /* FileManageService.swift in Sources */,
 				9A5CE7662ACC5E5A00C8CE30 /* MyRecordService.swift in Sources */,

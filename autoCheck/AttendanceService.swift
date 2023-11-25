@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UserNotifications
 
 struct AttendanceBeacon {
     var connectionBeacon = ConnectBeacon()
@@ -80,9 +81,5 @@ class AttendanceService {
                 }
             }
         }
-    }
-    
-    func attendance() {
-        
     }
 }
