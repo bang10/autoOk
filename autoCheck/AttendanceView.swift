@@ -9,211 +9,172 @@ import SwiftUI
 import ActivityKit
 
 struct AttendanceView: View {
-    @EnvironmentObject var connectionBeacon: ConnectBeacon
+    @Binding private var studentId: String
+    private var attendanceStruct = AttendanceBeacon()
     private var attendanceService = AttendanceService()
     private var timeSet = TimeSet()
     private var alert = Alert()
-    @Binding private var studentId: String
-    @State private var time = 0
-    @State private var timerInterval = 1.0
-    @State var lastAttendanceTime: String = ""
-    @State var name: String = ""
-    @State var department: String = ""
-    @State var isCheckToStr: String = ""
-    @State var subject: String = ""
-    @State var studyTime: String = ""
-    @State var attendaceTime: String = ""
-    @State var isAttendance: String = ""
-    @State var classroom: String = ""
-    @State var grade: String = ""
-    @State var subjectId: String? = ""
+    @State private var attendanceDate: [AttendanceInfoDto]?
+    @State private var getTodayAttendaceInfo: TodayStudentAttendanceInfoDto? = nil
+    @State private var SubjectAttendance: SubjectAttendance?
     @State private var isGetData: Bool = false
-    
-    @State var activity: Activity<dynamicIslandAttributes>? = nil
+    @State private var isAttendance: Bool = false
     
     init(studentId: Binding<String> = .constant("2018100249")) {
         _studentId = studentId
     }
     var body: some View {
-        VStack {
+        ZStack {
+            VStack {
                 Form {
-                    HStack {
-                        Spacer()
-                        Text(lastAttendanceTime)
-                        Spacer()
-                    }
+                    Section (content: {
+                        HStack {
+                            Spacer()
+                            Text("\(timeSet.getFormattedDate())")
+                            Spacer()
+                        } // HStack
+                    }) // Section
                     
-                    Section(content: {
-                        if !isGetData {
-                            Text("소요 시간: \(formatTime(time))")
-                        }
-                        if subject == "" {
+                    // 데이터를 받아오는 중이라면
+                    if !isGetData {
+                        Section (content: {
                             HStack {
                                 Spacer()
-                                Text("이번시간에 출석할 강의가 없어요.")
-                                    .font(.system(size: 20))
-                                    .padding(.bottom, 15)
+                                Text("출석 정보를 확인하고 받아오고 있어요.")
+                                    .font(.system(size: 15))
                                 Spacer()
-                            }
-                        } else {
-                            if isAttendance != "출석" {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(Color.red.opacity(0.5))
-                                    .frame(width: 330, height: 360)
-                                    .overlay(
-                                        VStack (){
-                                            if let subjectId = subjectId{
-                                                Text(isCheckToStr)
-                                                    .font(.system(size: 25))
-                                                    .padding(.bottom, 15)
-                                                VStack (alignment: .leading){
-                                                    Text("과목 : \(subject)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    Text("강의 시간 : \(studyTime)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    Text("출석 시간 : \(attendaceTime)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    Text("출석 여부 : \(isAttendance)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    
-                                                    Text("강의실 : \(classroom)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                }
-                                            } else {
-                                                Text("이번시간에 출석할 강의가 없어요.")
-                                            }
-                                        }
-                                            
-                                    )
-                            } else {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(Color.blue.opacity(0.5))
-                                    .frame(width: 330, height: 360)
-                                    .overlay(
-                                        VStack (){
-                                            if let subjectId = subjectId{
-                                                Text(isCheckToStr)
-                                                    .font(.system(size: 25))
-                                                    .padding(.bottom, 15)
-                                                VStack (alignment: .leading){
-                                                    Text("과목 : \(subject)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    Text("강의 시간 : \(studyTime)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    Text("출석 시간 : \(attendaceTime)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    
-                                                    Text("출석 여부 : \(isAttendance)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                    
-                                                    Text("강의실 : \(classroom)")
-                                                        .font(.system(size: 25))
-                                                        .padding(.bottom, 15)
-                                                }
-                                            } else {
-                                                Text("이번시간에 출석할 강의가 없어요.")
-                                            }
-                                        }
-                                            
-                                    )
-                            }
-                        }
-                        
-                    })
+                            } // HStack
+                        }) // section
+                    }
+                    if !isAttendance {
+                        Section (content: {
+                            HStack {
+                                Spacer()
+                                Text("출석 처리를 하고 있어요.")
+                                    .font(.system(size: 15))
+                                Spacer()
+                            } // HStack
+                        }) // section
+                    }
                     
-                    Text("이름 : \(name)")
-                    Text("학번 : \(studentId)")
-                    Text("학년 : \(grade)")
-                    Text("소속 : \(department)")
-                }
-            
-        }
-        .onAppear(perform: {
-            Task {
-                await getTodayStudyInfo()
-            }
-            lastAttendanceTime = timeSet.getFormattedDate()
-            
-            let attributes = dynamicIslandAttributes()
-            let state = dynamicIslandAttributes.ContentState(time: formatTime(time), text: "출석처리중", subject: subject, classroom: classroom)
-            
-            activity = try? Activity<dynamicIslandAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
-                
-            Timer.scheduledTimer(withTimeInterval: timerInterval, repeats: true) { timer in
-                if !isGetData {
-                    if connectionBeacon.beaconDetected {
-                        if isAttendance == "" {
-                            attendanceService.saveAttendance(param: SSAADto(subjectId: subjectId ?? "", studentId: studentId, studyTime: studyTime)) { res, error in
-                                if let res =  res {
-                                    self.isGetData = true
-                                    subject = res.subjectName ?? ""
-                                    isAttendance = res.attendance ?? ""
-
-                                    self.isGetData = true
-                                    alert.alert(message: "성공적으로 출석을 했어요.")
+                    // 출석화면
+                    Section (content: {
+                        if let getTodayAttendaceInfo = getTodayAttendaceInfo {
+                            if let subjectId = getTodayAttendaceInfo.subjectId {
+                                if getTodayAttendaceInfo.attendance == nil {
+                                    if subjectId != ""{
+                                        attendanceDesign(getTodayAttendaceInfo: getTodayAttendaceInfo)
+                                    }
                                 } else {
-                                    alert.alert(message: "출석을 실패했어요.")
+                                    if getTodayAttendaceInfo.attendance == "출석" {
+                                        RoundedRectangle (cornerRadius: 10)
+                                            .foregroundColor(Color.blue.opacity(0.5))
+                                            .frame(width: 330, height: 300)
+                                            .overlay (
+                                                attendanceDesign(getTodayAttendaceInfo: getTodayAttendaceInfo)
+                                            ) // overlay
+                                    } else if getTodayAttendaceInfo.attendance == "지각" || getTodayAttendaceInfo.attendance == "결석"{
+                                        RoundedRectangle (cornerRadius: 10)
+                                            .foregroundColor(Color.red.opacity(0.5))
+                                            .frame(width: 330, height: 300)
+                                            .overlay (
+                                                attendanceDesign(getTodayAttendaceInfo: getTodayAttendaceInfo)
+                                            ) // overlay
+                                    } else {
+                                        HStack {
+                                            Spacer()
+                                            Text("출석 가능한 강의가 없어요.")
+                                            Spacer()
+                                        }
+                                    }
                                 }
                             }
+                            
                         }
-                        if subject == "" {
-                            alert.alert(message: "출석할 강의가 없어요.")
-                            self.isGetData = true
+                    }) // section
+                    
+                    Section (content: {
+                        if let getTodayAttendaceInfo = getTodayAttendaceInfo {
+                            Text("학생명: \(getTodayAttendaceInfo.studentName)")
+                            Text("학번: \(getTodayAttendaceInfo.studentId)")
+                            Text("학년: \(getTodayAttendaceInfo.grade)")
+                            Text("학과: \(getTodayAttendaceInfo.department)")
                         }
-                    }
-                    time += 1
-                } else if isGetData {
-                    timer.invalidate()
+                    })
+                    
+                } // Form
+            } // VStack
+        } // ZStack
+        .navigationTitle("\(studentId)의 출석")
+        .refreshable {
+            Task {
+                do {
+                  try  await attendance()
+                } catch {
+                    alert.alert(message: "비인가 접근이 감지되었습니다.")
                 }
             }
-            
-        })
-        .navigationTitle("출석")
-        .navigationBarTitleDisplayMode(.automatic)
-        .refreshable {
-            time = 0
-            Task {
-                await getTodayStudyInfo()
-            }
-            
         }
-        
-    }
-    
-    func formatTime(_ seconds: Int) -> String {
-        let minutes = seconds / 60
-        let seconds = seconds % 60
-        return String(format: "%02d분 %02d초", minutes, seconds)
-    }
-    
-    func getTodayStudyInfo() async {
-        attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId) { res, error in
-            if let res = res {
-                subjectId = res.subjectId
-                subject = res.subjectName ?? ""
-                studyTime = res.scheduleTime ?? ""
-                isAttendance = res.attendance ?? ""
-                classroom = res.classroom ?? ""
-                name = res.studentName
-                grade = res.grade
-                department = res.department
-                attendaceTime = res.attendanceTime ?? ""
 
+        .onAppear(perform: {
+            Task {
+                do {
+                    try await attendance()
+                } catch {
+                    alert.alert(message: "비인가 접근이 감지되었습니다.")
+                }
             }
+        })
+    } // Body: View
+    
+    func getTodayStudyInfo() async throws{
+        print("inner today")
+        do {
+            let res = try await attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId)
+                getTodayAttendaceInfo = res
+                isGetData = true
+        } catch {
+            print("\(error)")
+        }
         
+    } // func
+    
+    func attendance() {
+        Task {
+            do {
+                try await getTodayStudyInfo()
+                if let getTodayAttendaceInfo = getTodayAttendaceInfo {
+                    if let subjectId = getTodayAttendaceInfo.subjectId {
+                        if subjectId != "" {
+                            if let attendance = getTodayAttendaceInfo.attendance {
+                                isAttendance = true
+                            } // attendance Unlapping
+                            else {
+                                attendanceStruct.detectBeacon(ssAaDto: SSAADto(subjectId: getTodayAttendaceInfo.subjectId ?? "", studentId: self.studentId, studyTime: getTodayAttendaceInfo.scheduleTime ?? "", isAttendance: getTodayAttendaceInfo.attendance ?? "")) { res in
+                                    if let res = res {
+                                        if res {
+                                            alert.alert(message: "출석에 성공했어요.")
+                                            Task {
+                                                do {
+                                                    try await getTodayStudyInfo()
+                                                } catch {
+                                                    print("error")
+                                                }
+                                            }
+                                            isAttendance = true
+                                        }
+                                    }
+                                }
+                            }
+                        } // subjectId check isEmpty
+                    } // subjectId Unlapping
+                } // getTodayAttendance
+            } catch {
+                print("error")
+            }
         }
     }
-    
-}
+} // struct
 
 #Preview {
     AttendanceView()

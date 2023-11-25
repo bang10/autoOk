@@ -27,6 +27,7 @@
 		9A767ADF2ABC34C300AC4A71 /* autoCheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767ADE2ABC34C300AC4A71 /* autoCheckUITests.swift */; };
 		9A767AE12ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AE02ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift */; };
 		9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */; };
+		9A87D7A92B11EA4F00156CED /* attendanceDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A87D7A82B11EA4F00156CED /* attendanceDesign.swift */; };
 		9A8CD1BD2AFA8CDA0058D049 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8CD1BC2AFA8CDA0058D049 /* WidgetKit.framework */; };
 		9A8CD1BF2AFA8CDA0058D049 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A8CD1BE2AFA8CDA0058D049 /* SwiftUI.framework */; };
 		9A8CD1C22AFA8CDA0058D049 /* dynamicIslandBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CD1C12AFA8CDA0058D049 /* dynamicIslandBundle.swift */; };
@@ -113,6 +114,7 @@
 		9A767ADE2ABC34C300AC4A71 /* autoCheckUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autoCheckUITests.swift; sourceTree = "<group>"; };
 		9A767AE02ABC34C300AC4A71 /* autoCheckUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = autoCheckUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9A767AEE2ABC4D5D00AC4A71 /* ConnectBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectBeacon.swift; sourceTree = "<group>"; };
+		9A87D7A82B11EA4F00156CED /* attendanceDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = attendanceDesign.swift; sourceTree = "<group>"; };
 		9A8CD1BA2AFA8CDA0058D049 /* dynamicIslandExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = dynamicIslandExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A8CD1BC2AFA8CDA0058D049 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9A8CD1BE2AFA8CDA0058D049 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -263,6 +265,7 @@
 				9A1DC15D2AC02DCA00AFA5CB /* MyRecordView.swift */,
 				9AA425632ACB9FAA00EEC649 /* AttendanceService.swift */,
 				9A5CE7652ACC5E5A00C8CE30 /* MyRecordService.swift */,
+				9A87D7A82B11EA4F00156CED /* attendanceDesign.swift */,
 			);
 			path = autoCheck;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				9AA516ED2AC1CE0300A96A32 /* API_SET.swift in Sources */,
 				9A0AEDA62AC63921000F2E27 /* FileManageService.swift in Sources */,
 				9A5CE7662ACC5E5A00C8CE30 /* MyRecordService.swift in Sources */,
+				9A87D7A92B11EA4F00156CED /* attendanceDesign.swift in Sources */,
 				9A1DC1612AC0376300AFA5CB /* RecordDto.swift in Sources */,
 				9A767AEF2ABC4D5D00AC4A71 /* ConnectBeacon.swift in Sources */,
 				9A8CD1D92AFA92720058D049 /* AttendanceView.swift in Sources */,

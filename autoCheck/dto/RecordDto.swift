@@ -56,6 +56,7 @@ struct SSAADto: Codable {
     var subjectId: String
     var studentId: String
     var studyTime: String
+    var isAttendance: String
 }
 
 struct SubjectAttendance: Codable {
