@@ -175,7 +175,7 @@ struct AttendanceView: View {
                                     if let res = res {
                                         if res {
                                             alert.alert(message: "출석에 성공했어요.")
-                                            notification.pushNotification(title: "출석 안내", body: "출석 처리가 \(getTodayAttendaceInfo.attendance ?? "")으로 되었습니다.", seconds: 1, identifier: "PUSH_TEST")
+                                            notification.pushNotification(title: "출석 안내", body: "출석 처리가 완료되었습니다.", seconds: 1, identifier: "PUSH_TEST")
                                             HapticHelper.shared.impact(style: .medium)
                                             Task {
                                                 do {
