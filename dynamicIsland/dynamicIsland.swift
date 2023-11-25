@@ -46,13 +46,23 @@ struct TimeTrackingWidgetView: View {
                 .padding(.leading, 5)
             Spacer()
             Text("소요시간: ")
-                .font(.system(size: 15))
+                .font(.system(size: 13))
             Text("\(context.state.time)")
-                .font(.system(size: 27))
-                .padding(.trailing, 15)
+                .font(.system(size: 20))
+                .padding(.trailing, 10)
         }
     }
     
 }
 
+class StopActivity {
+    static let shared = StopActivity()
+    
+    func stop(acticivy: Activity<dynamicIslandAttributes>) async -> Bool {
+        for acticivy in Activity<dynamicIslandAttributes>.activities {
+            await acticivy.end(dismissalPolicy: .immediate)
+        }
+        return true
+    }
+}
 

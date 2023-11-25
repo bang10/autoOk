@@ -23,6 +23,7 @@ struct AttendanceView: View {
     @State private var isGetData: Bool = false
     @State private var isAttendance: Bool = false
     @State private var time = 0
+    @State private var isEndActivity: Bool = false
     
     @State var activity: Activity<dynamicIslandAttributes>? = nil
     
@@ -130,8 +131,6 @@ struct AttendanceView: View {
         }
 
         .onAppear(perform: {
-            notification.pushNotification(title: "출석 안내", body: "출석 처리가 \(getTodayAttendaceInfo?.attendance ?? "")으로 되었습니다.", seconds: 1, identifier: "PUSH_TEST")
-            HapticHelper.shared.impact(style: .medium)
             let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
                 activity = try? Activity<dynamicIslandAttributes>.request(attributes: attrbutes, contentState: state)
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
@@ -143,6 +142,9 @@ struct AttendanceView: View {
                     }
                 }
                 time += 1
+                if isEndActivity {
+                    timer.invalidate()
+                }
             }
         })
     } // Body: View
@@ -151,13 +153,6 @@ struct AttendanceView: View {
         do {
             let res = try await attendanceService.getTodayStudnetAttendaceInfo(studentId: studentId)
                 getTodayAttendaceInfo = res
-            if res.attendance != nil {
-                Task {
-                    for activity in Activity<dynamicIslandAttributes>.activities {
-                        await activity.end(dismissalPolicy: .immediate)
-                    }
-                }
-            }
             isGetData = true
         } catch {
             print("\(error)")
@@ -180,6 +175,8 @@ struct AttendanceView: View {
                                     if let res = res {
                                         if res {
                                             alert.alert(message: "출석에 성공했어요.")
+                                            notification.pushNotification(title: "출석 안내", body: "출석 처리가 \(getTodayAttendaceInfo.attendance ?? "")으로 되었습니다.", seconds: 1, identifier: "PUSH_TEST")
+                                            HapticHelper.shared.impact(style: .medium)
                                             Task {
                                                 do {
                                                     try await getTodayStudyInfo()
@@ -198,22 +195,22 @@ struct AttendanceView: View {
                         let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo.attendance ?? getTodayAttendaceInfo.attendance ?? "출석중", subjectName: getTodayAttendaceInfo.subjectName ?? "", classroom: getTodayAttendaceInfo.classroom ?? "")
                         await activity?.update(using: state)
                     }
+                    if let subjectId = getTodayAttendaceInfo.subjectId {
+                        print(subjectId)
+                        print(getTodayAttendaceInfo)
+                        if subjectId != "", (getTodayAttendaceInfo.attendance != nil) {
+                            isEndActivity = await StopActivity.shared.stop(acticivy: activity!)
+                        }
+                    }
+                    
                 } // getTodayAttendance
-                try await Thread.sleep(forTimeInterval: 1.0)
             } catch {
                 print("error")
             }
         }
         isAttendance = true
     }
-    
-//    func endActicity(activity: Activity<dynamicIslandAttributes>) {
-//        Task {
-//            for acticivy in Activity<dynamicIslandAttributes>.activities {
-//                await acticivy.end(dismissalPolicy: .immediate)
-//            }
-//        }
-//    }
+
 } // struct
 
 #Preview {
