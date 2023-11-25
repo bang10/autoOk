@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("\(studentId)의 출석 체크")
+                Text("\(studentId)의 출석")
                 TabView {
                     AttendanceView(studentId: $studentId)
                         .padding(.bottom, 10)
