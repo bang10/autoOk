@@ -122,8 +122,23 @@ struct AttendanceView: View {
         .refreshable {
             Task {
                 do {
+                    await StopActivity.shared.stop(acticivy: activity!)
                     time = 0
-                  try  await attendance()
+                    let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
+                        activity = try? Activity<dynamicIslandAttributes>.request(attributes: attrbutes, contentState: state)
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                        Task {
+                            do {
+                                try await attendance()
+                            } catch {
+                                alert.alert(message: "비인가 접근이 감지되었습니다.")
+                            }
+                        }
+                        time += 1
+                        if isEndActivity {
+                            timer.invalidate()
+                        }
+                    }
                 } catch {
                     alert.alert(message: "비인가 접근이 감지되었습니다.")
                 }
@@ -133,7 +148,7 @@ struct AttendanceView: View {
         .onAppear(perform: {
             let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
                 activity = try? Activity<dynamicIslandAttributes>.request(attributes: attrbutes, contentState: state)
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
                 Task {
                     do {
                         try await attendance()
@@ -169,6 +184,7 @@ struct AttendanceView: View {
                         if subjectId != "" {
                             if let attendance = getTodayAttendaceInfo.attendance {
                                 isAttendance = true
+                                await StopActivity.shared.stop(acticivy: activity!)
                             } // attendance Unlapping
                             else {
                                 attendanceStruct.detectBeacon(ssAaDto: SSAADto(subjectId: getTodayAttendaceInfo.subjectId ?? "", studentId: self.studentId, studyTime: getTodayAttendaceInfo.scheduleTime ?? "", isAttendance: getTodayAttendaceInfo.attendance ?? "")) { res in
@@ -191,18 +207,13 @@ struct AttendanceView: View {
                             }
                         } // subjectId check isEmpty
                     } // subjectId Unlapping
+                    else {
+                        await StopActivity.shared.stop(acticivy: activity!)
+                    }
                     Task {
                         let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo.attendance ?? getTodayAttendaceInfo.attendance ?? "출석중", subjectName: getTodayAttendaceInfo.subjectName ?? "", classroom: getTodayAttendaceInfo.classroom ?? "")
                         await activity?.update(using: state)
                     }
-                    if let subjectId = getTodayAttendaceInfo.subjectId {
-                        print(subjectId)
-                        print(getTodayAttendaceInfo)
-                        if subjectId != "", (getTodayAttendaceInfo.attendance != nil) {
-                            isEndActivity = await StopActivity.shared.stop(acticivy: activity!)
-                        }
-                    }
-                    
                 } // getTodayAttendance
             } catch {
                 print("error")
