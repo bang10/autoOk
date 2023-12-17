@@ -30,7 +30,7 @@ struct Time_Widget: Widget {
             } compactTrailing: {
                 Text("\(context.state.isAttendance)")
             } minimal: {
-                
+                Text("\(context.state.subjectName)")
             }
 
         }

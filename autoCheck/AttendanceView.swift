@@ -126,7 +126,7 @@ struct AttendanceView: View {
                     time = 0
                     let state = dynamicIslandAttributes.ContentState(time: timeSet.formatTime(time/2), isAttendance: getTodayAttendaceInfo?.attendance ?? "출석중", subjectName: getTodayAttendaceInfo?.subjectName ?? "", classroom: getTodayAttendaceInfo?.classroom ?? "")
                         activity = try? Activity<dynamicIslandAttributes>.request(attributes: attrbutes, contentState: state)
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
                         Task {
                             do {
                                 try await attendance()
